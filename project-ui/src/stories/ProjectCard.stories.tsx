@@ -38,6 +38,16 @@ export const Compact: Story = {
   args: { project: projectByName("Scholarsapp"), viewMode: "compact" },
 };
 
+export const CompactBoard: Story = {
+  render: () => (
+    <div className="grid grid-cols-1 gap-2.5">
+      {sampleProjects.map((project) => (
+        <ProjectCard key={project.id} project={project} viewMode="compact" />
+      ))}
+    </div>
+  ),
+};
+
 export const TwoColumnBoard: Story = {
   render: () => (
     <div className="grid grid-cols-1 gap-3.5 md:grid-cols-2">

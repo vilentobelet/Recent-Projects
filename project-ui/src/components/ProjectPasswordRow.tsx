@@ -19,7 +19,7 @@ export function ProjectPasswordRow({
   const copyLabel = copied ? <><Check className="size-3.5" /> Copied ✓</> : <><Clipboard className="size-3.5" /> Copy</>;
   if (layout === "compact") {
     return (
-      <div className="flex w-full min-w-0 items-center gap-1.5 rounded-xl border border-white/[0.07] bg-black/20 px-2 py-1.5 sm:w-auto">
+      <div className="flex w-full min-w-0 items-center gap-1.5 rounded-xl border border-white/[0.07] bg-black/20 px-2 py-1.5">
         <KeyRound className="size-3.5 shrink-0 text-zinc-500" />
         <span className="min-w-16 truncate font-mono text-xs tracking-wider text-zinc-300">{visible ? password : "••••••••"}</span>
         <GhostButton className="size-7 rounded-lg text-zinc-500 hover:text-white" aria-label={visible ? "Hide password" : "Show password"} onClick={onToggleVisible}>

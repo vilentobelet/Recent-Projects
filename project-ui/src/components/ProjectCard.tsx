@@ -34,19 +34,19 @@ export function ProjectCard({
       <div className="absolute inset-y-0 left-0 w-1 bg-[var(--card-accent)] opacity-90" />
       <div className={viewMode === "cards" ? "p-4 sm:p-[1.125rem]" : "p-3 sm:p-3.5"}>
         {viewMode === "compact" ? (
-          <div className="flex flex-col gap-3 lg:flex-row lg:items-center">
-            <div className="flex min-w-0 flex-1 items-start gap-3">
+          <div className="grid grid-cols-1 items-start gap-3 md:grid-cols-[minmax(0,1fr)_minmax(17rem,22rem)] md:items-center">
+            <div className="flex min-w-0 items-start gap-3">
               <ProjectLogo src={project.logoUrl} size="md" />
-              <div className="min-w-0 flex-1">
+              <div className="min-w-0 flex-1 overflow-hidden">
                 <div className="flex min-w-0 items-center gap-2">
-                  <h2 className="truncate text-base font-semibold text-zinc-50">{project.name}</h2>
+                  <h2 className="min-w-0 flex-1 truncate text-base font-semibold text-zinc-50">{project.name}</h2>
                   {project.featured && <FeaturedBadge compact />}
                 </div>
-                <p className="mt-0.5 line-clamp-2 text-sm leading-5 text-zinc-400">{project.idea}</p>
-                <ProjectTags tags={tags} />
+                <p className="mt-0.5 line-clamp-2 text-sm leading-5 text-zinc-400 md:line-clamp-1">{project.idea}</p>
+                <ProjectTags tags={tags} nowrap />
               </div>
             </div>
-            <div className="flex flex-wrap items-center gap-2 lg:ml-auto lg:flex-nowrap">
+            <div className="flex min-w-0 w-full flex-col gap-2">
               {hasPassword && (
                 <ProjectPasswordRow
                   password={project.password}
@@ -57,7 +57,7 @@ export function ProjectCard({
                   onCopy={() => onCopyPassword?.()}
                 />
               )}
-              <div className="flex w-full min-w-0 items-center gap-2 sm:w-auto sm:flex-1 lg:max-w-[25rem]">
+              <div className="min-w-0 w-full">
                 <ProjectLinkRow link={project.link} copied={copied === "link"} hasPassword={hasPassword} onCopy={() => onCopyLink?.()} />
               </div>
             </div>
@@ -69,13 +69,13 @@ export function ProjectCard({
                 <ProjectLogo src={project.logoUrl} size="sm" />
                 <div className="min-w-0">
                   <div className="mb-1 flex flex-wrap gap-1.5">{project.featured && <FeaturedBadge />}</div>
-                  <h2 className="truncate text-lg font-semibold tracking-[-0.025em] text-zinc-50">{project.name}</h2>
+                  <h2 className="min-w-0 truncate text-lg font-semibold tracking-[-0.025em] text-zinc-50">{project.name}</h2>
                 </div>
               </div>
             </div>
             <div className="mb-2.5">
               <p className="mb-1 text-xs font-semibold uppercase tracking-[0.12em] text-zinc-500">Product idea</p>
-              <p className="text-sm leading-5 text-zinc-300">{project.idea}</p>
+              <p className="text-sm leading-5 text-zinc-300 [overflow-wrap:anywhere] md:[overflow-wrap:normal]">{project.idea}</p>
               <ProjectTags tags={tags} />
             </div>
             <div className="grid gap-2.5">

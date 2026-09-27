@@ -59,6 +59,8 @@ Last updated: 2026-09-27
 - Standalone downloadable HTML connected to the production API.
 - Card-shaped loading skeletons for Cards and Compact views.
 - Project cards are loaded from `data/projects.json` (Storybook, D1 seed, standalone fallback) rather than hardcoded arrays.
+- Compact view uses a two-column identity/actions grid from 768px so titles and tags no longer collapse beside long Figma URLs.
+- `data/projects.json` now holds the full 10-product live catalog (not a four-card sample).
 
 ## Verification
 
@@ -72,6 +74,8 @@ Last updated: 2026-09-27
 - Production Vinext build passed after adding card skeletons.
 - Standalone HTML rebuilt with card-shaped loading skeletons.
 - Site, Storybook, and standalone builds passed after moving cards into `data/projects.json`.
+- Production, standalone, and Storybook builds passed after the compact responsive layout fix.
+- Catalog JSON synced from the live `/api/products` list (10 cards).
 
 ## Known constraints
 

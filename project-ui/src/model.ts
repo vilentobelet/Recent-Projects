@@ -38,7 +38,10 @@ export function normaliseLink(value: string) {
 export function getDisplayLink(value: string) {
   try {
     const url = new URL(normaliseLink(value));
-    return `${url.host.replace(/^www\./, "")}${url.pathname === "/" ? "" : url.pathname}${url.search}${url.hash}`;
+    const host = url.host.replace(/^www\./, "");
+    const parts = url.pathname.split("/").filter((part) => part.length > 0 && part.length < 18);
+    if (!parts.length) return host;
+    return `${host}/${parts.slice(0, 2).join("/")}`;
   } catch {
     return value;
   }

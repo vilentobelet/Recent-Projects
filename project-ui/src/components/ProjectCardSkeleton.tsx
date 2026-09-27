@@ -36,7 +36,7 @@ export function ProjectCardSkeleton({
     >
       <div className="absolute inset-y-0 left-0 w-1 bg-orange-500/35" />
       {viewMode === "compact" ? (
-        <div className="flex flex-col gap-3 p-3 sm:p-3.5 lg:flex-row lg:items-center">
+        <div className="grid grid-cols-1 items-start gap-3 p-3 sm:p-3.5 md:grid-cols-[minmax(0,1fr)_minmax(17rem,22rem)] md:items-center">
           <div className="flex min-w-0 flex-1 items-start gap-3">
             <Bone className="size-10 shrink-0 rounded-xl" />
             <div className="min-w-0 flex-1">
@@ -49,13 +49,15 @@ export function ProjectCardSkeleton({
               </div>
             </div>
           </div>
-          <div className="flex w-full min-w-0 items-center gap-2 lg:max-w-[25rem]">
-            <div className="flex min-w-0 flex-1 items-center gap-2.5 rounded-xl border border-white/[0.07] bg-black/20 p-2">
-              <Bone className="size-8 shrink-0 rounded-lg" />
-              <Bone className="h-3 flex-1" />
-              <Bone className="hidden h-7 w-14 shrink-0 rounded-lg sm:block" />
+          <div className="flex min-w-0 w-full flex-col gap-2">
+            <div className="flex min-w-0 w-full items-center gap-2">
+              <div className="flex min-w-0 flex-1 items-center gap-2.5 rounded-xl border border-white/[0.07] bg-black/20 p-2">
+                <Bone className="size-8 shrink-0 rounded-lg" />
+                <Bone className="h-3 flex-1" />
+                <Bone className="hidden h-7 w-14 shrink-0 rounded-lg sm:block" />
+              </div>
+              <Bone className="h-9 w-[4.5rem] shrink-0 rounded-xl bg-orange-500/25" />
             </div>
-            <Bone className="h-9 w-[4.5rem] shrink-0 rounded-xl bg-orange-500/25" />
           </div>
         </div>
       ) : (

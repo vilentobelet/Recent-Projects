@@ -1,5 +1,14 @@
 # Product Badge Board — Changelog
 
+## 2026-09-27 — Full live catalog in JSON
+
+- Copied all 10 live board products into `data/projects.json` so Storybook, empty-database seed, and the standalone fallback match production.
+
+## 2026-09-27 — Compact responsive layout
+
+- Stopped compact rows from crushing titles and stretching Figma URLs: identity and actions sit in a two-column grid from 768px and stack on phones.
+- Truncated visible links to host plus short path segments (Figma file keys omitted); the full URL remains in the tooltip. Copy stays off the compact row on small screens.
+
 ## 2026-09-27 — JSON card catalog
 
 - Moved project card content into `data/projects.json`.

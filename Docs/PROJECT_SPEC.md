@@ -37,7 +37,7 @@ Each project supports:
 - The owner badge, portfolio badge, and Cards/Compact toggle are equal-height controls aligned with the `Recent Projects.` headline on desktop.
 - View mode, selected category, and scroll position persist within the browser session.
 - Cards view uses two columns on desktop and one column on mobile.
-- Compact view uses dense horizontal rows on desktop and stacks safely on mobile.
+- Compact view uses a two-column row from 768px (identity | actions) and stacks on phones. Titles stay on one truncated line; long URLs show host plus short path segments (Figma file keys are omitted), with the full URL in the tooltip. Copy stays hidden on small screens so the host can remain readable.
 - Industry tags appear directly below Product Idea and remain visually secondary.
 - Featured projects appear before regular projects and display a Featured badge.
 - A project link shows its favicon, truncated URL, and a `Site`, `Figma`, or `Prototype` resource badge.

@@ -45,7 +45,10 @@ function getHost(value: string) {
 function getDisplayLink(value: string) {
   try {
     const url = new URL(normaliseLink(value));
-    return `${url.host.replace(/^www\./, "")}${url.pathname === "/" ? "" : url.pathname}${url.search}${url.hash}`;
+    const host = url.host.replace(/^www\./, "");
+    const parts = url.pathname.split("/").filter((part) => part.length > 0 && part.length < 18);
+    if (!parts.length) return host;
+    return `${host}/${parts.slice(0, 2).join("/")}`;
   } catch { return value; }
 }
 
@@ -331,7 +334,7 @@ function ProductCard({ product, viewMode, isAdmin, token, onChanged, draggingId,
     finally { setSaving(false); }
   }
 
-  const tagBadges = <div className="mt-2 flex flex-wrap gap-1">{tags.map((tag) => <span key={tag} className="rounded-md border border-[var(--card-border)] bg-[var(--card-soft)] px-1.5 py-px text-[0.6rem] font-semibold uppercase tracking-[0.07em] text-[var(--card-accent)]">{tag}</span>)}</div>;
+  const tagBadges = <div className={`mt-2 flex gap-1 ${viewMode === "compact" ? "flex-nowrap overflow-hidden" : "flex-wrap"}`}>{tags.map((tag) => <span key={tag} className="shrink-0 rounded-md border border-[var(--card-border)] bg-[var(--card-soft)] px-1.5 py-px text-[0.6rem] font-semibold uppercase tracking-[0.07em] text-[var(--card-accent)]">{tag}</span>)}</div>;
   const adminTools = isAdmin && <div className="flex shrink-0 items-center gap-1">
     <Button variant="ghost" size="icon-sm" draggable onDragStart={(event) => { event.dataTransfer.effectAllowed = "move"; event.dataTransfer.setData("text/plain", String(product.id)); onDragStart(product.id); }} onDragEnd={onDragEnd} onPointerDown={(event) => { if (event.pointerType === "mouse") return; event.preventDefault(); event.currentTarget.setPointerCapture(event.pointerId); onDragStart(product.id); }} onPointerMove={(event) => { if (event.pointerType !== "mouse" && draggingId === product.id) onPointerMove(event.clientX, event.clientY); }} onPointerUp={(event) => { if (event.pointerType === "mouse") return; if (event.currentTarget.hasPointerCapture(event.pointerId)) event.currentTarget.releasePointerCapture(event.pointerId); onPointerDrop(); }} aria-label={`Move ${product.name}`} title="Drag to reorder" className="touch-none cursor-grab rounded-lg text-zinc-500 hover:bg-orange-500/10 hover:text-orange-300 active:cursor-grabbing"><GripVertical /></Button>
     <Button variant="ghost" size="icon-sm" onClick={() => setEditing(true)} aria-label={`Edit ${product.name}`} className="rounded-lg text-zinc-500 hover:bg-white/5 hover:text-white"><Pencil /></Button>
@@ -342,7 +345,7 @@ function ProductCard({ product, viewMode, isAdmin, token, onChanged, draggingId,
   const linkText = <TooltipProvider delayDuration={180}><Tooltip><TooltipTrigger asChild><button type="button" onClick={() => void copyField(product.link, "link")} className="min-w-0 flex-1 cursor-copy truncate text-left text-xs font-medium text-zinc-300 transition hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange-500/60 sm:text-sm">{displayLink}</button></TooltipTrigger><TooltipContent side="top" sideOffset={8} className="max-w-sm break-all bg-zinc-100 text-zinc-900">{fullLink}<span className="mt-1 block text-[0.68rem] text-zinc-500">Click to copy</span></TooltipContent></Tooltip></TooltipProvider>;
   const kindBadge = <span className={`shrink-0 rounded-md border px-1.5 py-0.5 text-[0.6rem] font-semibold uppercase tracking-[0.07em] ${linkKindClass}`}>{linkKind}</span>;
   const openButton = <TooltipProvider delayDuration={180}><Tooltip><TooltipTrigger asChild><Button asChild size="sm" className="h-9 shrink-0 rounded-xl bg-orange-500 px-3 text-zinc-950 hover:bg-orange-400"><a href={fullLink} target="_blank" rel="noreferrer" onClick={openProduct}><ExternalLink /> Open</a></Button></TooltipTrigger><TooltipContent side="top" sideOffset={8} className="max-w-sm break-all bg-zinc-100 text-zinc-900">{product.password ? "Copies the password, then opens " : "Open "}{fullLink}</TooltipContent></Tooltip></TooltipProvider>;
-  const passwordControls = product.password && <div className="flex w-full min-w-0 items-center gap-1.5 rounded-xl border border-white/[0.07] bg-black/20 px-2 py-1.5 sm:w-auto">
+  const passwordControls = product.password && <div className="flex w-full min-w-0 items-center gap-1.5 rounded-xl border border-white/[0.07] bg-black/20 px-2 py-1.5">
     <KeyRound className="size-3.5 shrink-0 text-zinc-500" />
     <span className="min-w-16 truncate font-mono text-xs tracking-wider text-zinc-300">{visible ? product.password : "••••••••"}</span>
     <Button variant="ghost" size="icon-sm" onClick={() => setVisible(!visible)} aria-label={visible ? "Hide password" : "Show password"} className="size-7 rounded-lg text-zinc-500 hover:bg-white/5 hover:text-white">{visible ? <EyeOff /> : <Eye />}</Button>
@@ -364,19 +367,22 @@ function ProductCard({ product, viewMode, isAdmin, token, onChanged, draggingId,
           <ProductForm initial={{ industry: product.industry, name: product.name, idea: product.idea, link: product.link, password: product.password, color: product.color ?? "orange", logoUrl: product.logoUrl ?? "", featured: Boolean(product.featured) }} saving={saving} token={token} onSave={update} onCancel={() => setEditing(false)} submitLabel="Save changes" />
         ) : (
           viewMode === "compact" ? (
-            <div className="flex flex-col gap-3 lg:flex-row lg:items-center">
-              <div className="flex min-w-0 flex-1 items-start gap-3">
+            <div className="grid grid-cols-1 items-start gap-3 md:grid-cols-[minmax(0,1fr)_minmax(17rem,22rem)] md:items-center">
+              <div className="flex min-w-0 items-start gap-3">
                 <span className="grid size-10 shrink-0 place-items-center overflow-hidden rounded-xl border border-[var(--card-border)] bg-[var(--card-soft)] text-[var(--card-accent)]">{product.logoUrl ? <img src={product.logoUrl} alt="" className="size-full object-cover" /> : <Layers3 className="size-4" />}</span>
-                <div className="min-w-0 flex-1">
-                  <div className="flex min-w-0 items-center gap-2"><h2 className="truncate text-base font-semibold text-zinc-50">{product.name}</h2>{Boolean(product.featured) && <span className="inline-flex shrink-0 items-center gap-1 rounded-md border border-orange-500/30 bg-orange-500/15 px-1.5 py-px text-[0.6rem] font-semibold uppercase tracking-[0.07em] text-orange-300"><Sparkles className="size-2.5" />Featured</span>}</div>
-                  <p className="mt-0.5 line-clamp-2 text-sm leading-5 text-zinc-400">{product.idea}</p>
+                <div className="min-w-0 flex-1 overflow-hidden">
+                  <div className="flex min-w-0 items-center gap-2">
+                    <h2 className="min-w-0 flex-1 truncate text-base font-semibold text-zinc-50">{product.name}</h2>
+                    {Boolean(product.featured) && <span className="inline-flex shrink-0 items-center gap-1 rounded-md border border-orange-500/30 bg-orange-500/15 px-1.5 py-px text-[0.6rem] font-semibold uppercase tracking-[0.07em] text-orange-300"><Sparkles className="size-2.5" />Featured</span>}
+                  </div>
+                  <p className="mt-0.5 line-clamp-2 text-sm leading-5 text-zinc-400 md:line-clamp-1">{product.idea}</p>
                   {tagBadges}
                 </div>
               </div>
-              <div className="flex flex-wrap items-center gap-2 lg:ml-auto lg:flex-nowrap">
+              <div className="flex min-w-0 w-full flex-col gap-2">
                 {passwordControls}
-                <div className="flex w-full min-w-0 items-center gap-2 sm:w-auto sm:flex-1 lg:max-w-[25rem]">
-                  <div className="flex min-w-0 flex-1 items-center gap-1.5 rounded-xl border border-white/[0.07] bg-black/20 px-2 py-1.5">{favicon}{linkText}{kindBadge}<Button variant="ghost" size="sm" onClick={() => void copyField(product.link, "link")} className="hidden h-7 shrink-0 rounded-lg px-2 text-xs text-zinc-300 hover:bg-[var(--card-soft)] hover:text-[var(--card-accent)] sm:inline-flex">{copied === "link" ? <><Check /> Copied ✓</> : <><Clipboard /> Copy</>}</Button></div>
+                <div className="flex min-w-0 w-full items-center gap-2">
+                  <div className="flex min-w-0 flex-1 items-center gap-1.5 overflow-hidden rounded-xl border border-white/[0.07] bg-black/20 px-2 py-1.5">{favicon}{linkText}{kindBadge}<Button variant="ghost" size="sm" onClick={() => void copyField(product.link, "link")} className="hidden h-7 shrink-0 rounded-lg px-2 text-xs text-zinc-300 hover:bg-[var(--card-soft)] hover:text-[var(--card-accent)] sm:inline-flex">{copied === "link" ? <><Check /> Copied ✓</> : <><Clipboard /> Copy</>}</Button></div>
                   {openButton}
                 </div>
                 {adminTools}
@@ -386,11 +392,11 @@ function ProductCard({ product, viewMode, isAdmin, token, onChanged, draggingId,
             <div className="mb-3.5 flex items-start justify-between gap-3">
               <div className="flex min-w-0 items-center gap-3">
                 <span className="grid size-9 shrink-0 place-items-center overflow-hidden rounded-xl border border-[var(--card-border)] bg-[var(--card-soft)] text-[var(--card-accent)]">{product.logoUrl ? <img src={product.logoUrl} alt="" className="size-full object-cover" /> : <Layers3 className="size-4" />}</span>
-                <div className="min-w-0"><div className="mb-1 flex flex-wrap gap-1.5">{Boolean(product.featured) && <span className="inline-flex items-center gap-1 rounded-md border border-orange-500/30 bg-orange-500/15 px-1.5 py-px text-[0.6rem] font-semibold uppercase tracking-[0.07em] text-orange-300"><Sparkles className="size-2.5" />Featured</span>}</div><h2 className="truncate text-lg font-semibold tracking-[-0.025em] text-zinc-50">{product.name}</h2></div>
+                <div className="min-w-0"><div className="mb-1 flex flex-wrap gap-1.5">{Boolean(product.featured) && <span className="inline-flex items-center gap-1 rounded-md border border-orange-500/30 bg-orange-500/15 px-1.5 py-px text-[0.6rem] font-semibold uppercase tracking-[0.07em] text-orange-300"><Sparkles className="size-2.5" />Featured</span>}</div><h2 className="min-w-0 truncate text-lg font-semibold tracking-[-0.025em] text-zinc-50">{product.name}</h2></div>
               </div>
               {adminTools}
             </div>
-            <div className="mb-2.5"><p className="mb-1 text-xs font-semibold uppercase tracking-[0.12em] text-zinc-500">Product idea</p><p className="text-sm leading-5 text-zinc-300">{product.idea}</p>{tagBadges}</div>
+            <div className="mb-2.5"><p className="mb-1 text-xs font-semibold uppercase tracking-[0.12em] text-zinc-500">Product idea</p><p className="text-sm leading-5 text-zinc-300 [overflow-wrap:anywhere] md:[overflow-wrap:normal]">{product.idea}</p>{tagBadges}</div>
             <div className="grid gap-2.5">
               {product.password && <div className="flex min-w-0 items-center gap-2.5 rounded-xl border border-white/[0.07] bg-black/20 p-2.5">
                 <span className="grid size-8 shrink-0 place-items-center rounded-lg bg-white/5 text-zinc-400"><KeyRound className="size-4" /></span>
@@ -567,13 +573,13 @@ export default function ProductBoard() {
       <div className="relative mx-auto w-full max-w-[1180px] px-4 py-5 sm:px-7 sm:py-7 lg:px-8">
         <header className="mb-6 sm:mb-7">
           <div className="mb-3 flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.18em] text-orange-400"><span className="h-px w-7 bg-orange-500" />Product access board</div>
-          <div className="relative flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
-            <div className="pr-24 sm:pr-0"><h1 className="max-w-2xl text-3xl font-semibold tracking-[-0.045em] text-zinc-50 sm:text-4xl">Recent Projects.</h1><p className="mt-2 flex flex-wrap items-center gap-2 text-sm text-zinc-500"><Globe2 className="size-4" /> {loading ? "Loading products…" : productCount}{isAdmin && <span className="ml-1 inline-flex items-center gap-1.5 rounded-full border border-orange-500/20 bg-orange-500/10 px-2.5 py-1 text-xs font-medium text-orange-300"><LockKeyhole className="size-3" /> Owner mode</span>}</p></div>
+          <div className="relative flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
+            <div className="min-w-0 pr-24 lg:pr-0"><h1 className="max-w-2xl text-3xl font-semibold tracking-[-0.045em] text-zinc-50 sm:text-4xl">Recent Projects.</h1><p className="mt-2 flex flex-wrap items-center gap-2 text-sm text-zinc-500"><Globe2 className="size-4" /> {loading ? "Loading products…" : productCount}{isAdmin && <span className="ml-1 inline-flex items-center gap-1.5 rounded-full border border-orange-500/20 bg-orange-500/10 px-2.5 py-1 text-xs font-medium text-orange-300"><LockKeyhole className="size-3" /> Owner mode</span>}</p></div>
           <div className="flex flex-wrap items-center gap-2 self-start">
             <div className="flex flex-wrap items-center gap-2">
               <OwnerProfile profile={profile} isAdmin={isAdmin} token={token} onSaved={setProfile} />
               <PortfolioBadge />
-              {!loading && <div className="absolute right-0 top-0 flex h-12 shrink-0 items-center rounded-2xl border border-white/[0.08] bg-white/[0.03] p-1 sm:static" role="group" aria-label="Project view">
+              {!loading && <div className="absolute right-0 top-0 flex h-12 shrink-0 items-center rounded-2xl border border-white/[0.08] bg-white/[0.03] p-1 lg:static" role="group" aria-label="Project view">
                 <button type="button" aria-label="Cards view" aria-pressed={viewMode === "cards"} onClick={() => setViewMode("cards")} className={`inline-flex h-10 items-center gap-1.5 rounded-xl px-2.5 text-xs font-semibold transition ${viewMode === "cards" ? "bg-orange-500 text-zinc-950" : "text-zinc-500 hover:bg-white/5 hover:text-zinc-200"}`}><LayoutGrid className="size-3.5" /><span className="hidden sm:inline">Cards</span></button>
                 <button type="button" aria-label="Compact view" aria-pressed={viewMode === "compact"} onClick={() => setViewMode("compact")} className={`inline-flex h-10 items-center gap-1.5 rounded-xl px-2.5 text-xs font-semibold transition ${viewMode === "compact" ? "bg-orange-500 text-zinc-950" : "text-zinc-500 hover:bg-white/5 hover:text-zinc-200"}`}><Rows3 className="size-3.5" /><span className="hidden sm:inline">Compact</span></button>
               </div>}
