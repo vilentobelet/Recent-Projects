@@ -1,5 +1,10 @@
 # Product Badge Board — Changelog
 
+## 2026-09-27 — Project UI Storybook
+
+- Added React Project components (`ProjectCard`, filters, link/password rows) in `project-ui/`.
+- Added Storybook (Vite + React) and a workflow that builds it.
+
 ## 2026-09-27 — TypeScript Pages pipeline
 
 - Moved the static board into `standalone/src/` TypeScript and CSS.

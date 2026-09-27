@@ -33,3 +33,6 @@ archive/
 
 # Pages prepare directory
 _site/
+
+# Storybook
+storybook-static/

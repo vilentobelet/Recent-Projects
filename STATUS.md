@@ -27,6 +27,7 @@ Last updated: 2026-09-27
 - Hosting configuration: `site/.openai/hosting.json`
 - Downloadable Notion HTML: `outputs/notion-product-badge.html` (generated)
 - Standalone TypeScript source: `standalone/src/`
+- Project React components + Storybook: `project-ui/`
 - GitHub Pages workflow: `.github/workflows/deploy-pages.yml`
 - Local OpenAI Sites git backup: `archive/openai-sites.git` (gitignored)
 
@@ -59,6 +60,7 @@ Last updated: 2026-09-27
 - Desktop and mobile browser QA passed for the header controls and category-filter width stability.
 - Live production QA confirmed the 48px control heights, portfolio link, stable scrollbar gutter, and unchanged 1180px board width before/after B2B filtering.
 - Version 11 deployment completed successfully.
+- `project-ui` Storybook production build succeeded (`storybook-static/`).
 
 ## Known constraints
 

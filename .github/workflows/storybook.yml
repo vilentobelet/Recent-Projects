@@ -1,0 +1,27 @@
+name: Build Storybook
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "project-ui/**"
+      - ".github/workflows/storybook.yml"
+  pull_request:
+    paths:
+      - "project-ui/**"
+  workflow_dispatch:
+
+jobs:
+  build:
+    name: Build Project UI Storybook
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
+        with:
+          node-version: "22"
+      - name: Install and build
+        working-directory: project-ui
+        run: |
+          npm install
+          npm run build-storybook

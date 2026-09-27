@@ -70,7 +70,7 @@ Each project supports:
 - Frontend/full-stack framework: React 19, Next-compatible Vinext, TypeScript, Tailwind CSS.
 - Hosting: OpenAI Sites / Cloudflare Worker runtime.
 - Static GitHub Pages mirror: built from `standalone/src/` by `.github/workflows/deploy-pages.yml`, written to `outputs/notion-product-badge.html`, backed by the same hosted API.
-- Repository layout: product docs at the repo root, Vinext app in `site/`, standalone TypeScript board in `standalone/`.
+- Repository layout: product docs at the repo root, Vinext app in `site/`, standalone TypeScript board in `standalone/`, React Project components and Storybook in `project-ui/`.
 - Database: D1 with Drizzle-managed migrations.
 - Image storage: R2 binding `BUCKET`.
 - Database binding: `DB`.

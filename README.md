@@ -24,6 +24,7 @@ https://product-badge-board.vilento-belet.chatgpt.site
 ├── STATUS.md
 ├── CHANGELOG.md
 ├── WORKFLOW.md
+├── project-ui/            # React Project components + Storybook
 ├── standalone/            # TypeScript source for the static board
 ├── outputs/               # built HTML for Notion / Pages
 │   └── notion-product-badge.html
@@ -45,6 +46,13 @@ Build the GitHub Pages / Notion HTML from `standalone/`:
 ```sh
 npm --prefix standalone install
 npm --prefix standalone run build
+```
+
+Run Project component Storybook from `project-ui/`:
+
+```sh
+npm --prefix project-ui install
+npm --prefix project-ui run storybook
 ```
 
 Node.js 22.13 or newer is required. The production runtime uses the D1 `DB` binding, R2 `BUCKET` binding, and an `ADMIN_TOKEN` secret.
