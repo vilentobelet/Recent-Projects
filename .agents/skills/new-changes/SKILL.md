@@ -5,8 +5,11 @@ description: Start a scoped change to the Recent Projects / Case Studies Web app
 
 # New Changes
 
-1. Read `AGENTS.md` and `STATUS.md` before taking action.
+Canonical Cursor copies: `.cursor/skills/new-changes/SKILL.md` and `.cursor/rules/new-changes.mdc`.
+
+1. Read `AGENTS.md` and `Docs/STATUS.md` before taking action.
 2. Treat the text after `Implement:` as the complete current change request.
 3. If `<конкретна правка>` is still present or the requested edit is missing, ask the user for the concrete change and do not implement anything yet.
-4. Preserve established behavior and constraints from the relevant sections of `PROJECT_SPEC.md`.
-5. Follow the validation, documentation, and publishing requirements in `AGENTS.md`.
+4. Preserve established behavior and constraints from the relevant sections of `Docs/PROJECT_SPEC.md`.
+5. For user-facing UI, keep `site/`, `standalone/src/`, and `project-ui/` aligned.
+6. Follow the validation, documentation, and publishing requirements in `AGENTS.md`.

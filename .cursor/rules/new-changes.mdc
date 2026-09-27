@@ -1,0 +1,16 @@
+---
+description: New Changes — scoped Product Badge Board edit using Docs/STATUS.md and Docs/PROJECT_SPEC.md. @-mention or enable when starting a concrete product change.
+alwaysApply: false
+---
+
+# New Changes
+
+Read AGENTS.md and Docs/STATUS.md.
+Implement: <конкретна правка>.
+Preserve existing behavior from Docs/PROJECT_SPEC.md.
+
+- Treat the user's first task as that Implement request. They do not need to repeat this boilerplate.
+- If the concrete edit is missing, ask for it and do not implement yet.
+- Keep `site/`, `standalone/src/`, and `project-ui/` aligned when the change is user-facing.
+- Validate: `pnpm run build` in `site/` for production UI/API; `npm --prefix standalone run build` for Pages/HTML; Storybook stories if `project-ui` changed.
+- After material work, update `Docs/STATUS.md` and `Docs/CHANGELOG.md`.

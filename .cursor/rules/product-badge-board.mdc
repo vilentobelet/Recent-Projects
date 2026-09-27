@@ -1,0 +1,14 @@
+---
+description: Product Badge Board operating rules — Docs as source of truth, layout, public viewing, owner-only edits, no secrets.
+alwaysApply: true
+---
+
+# Product Badge Board
+
+- Read `Docs/STATUS.md` before implementing. Use `Docs/PROJECT_SPEC.md` for requirements. Do not reconstruct from old chats.
+- Treat a concise user request as: implement that change and preserve existing spec behavior. Ask only if a missing decision would change the result.
+- Layout: `Docs/` docs, `site/` Vinext app, `standalone/src/` static board, `project-ui/` Storybook components, `outputs/notion-product-badge.html` generated HTML.
+- Public viewing; Owner-only writes. English UI. Dark charcoal/black with orange accent. Desktop Cards = two columns; mobile = one.
+- Never expose `ADMIN_TOKEN` or credentials. Stored project passwords are public by design (demo access, not a vault).
+- Skip `node_modules`, build output, `.env.local`, and `archive/` unless recovery is requested.
+- After material work: update `Docs/STATUS.md` and `Docs/CHANGELOG.md`. Publish the Site unless the user asks for local-only.

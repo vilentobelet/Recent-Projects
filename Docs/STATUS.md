@@ -19,6 +19,7 @@ Last updated: 2026-09-27
 
 ## Working files
 
+- Product documentation: `Docs/`
 - Production source: `site/`
 - Main UI: `site/components/product-board.tsx`
 - Schema: `site/db/schema.ts`
@@ -29,6 +30,9 @@ Last updated: 2026-09-27
 - Standalone TypeScript source: `standalone/src/`
 - Project React components + Storybook: `project-ui/`
 - GitHub Pages workflow: `.github/workflows/deploy-pages.yml`
+- Cursor New Changes skill: `.cursor/skills/new-changes/`
+- Cursor align-board-surfaces skill: `.cursor/skills/align-board-surfaces/`
+- Cursor rules: `.cursor/rules/` (`product-badge-board`, `board-ui`, `api-and-data`, `new-changes`)
 - Local OpenAI Sites git backup: `archive/openai-sites.git` (gitignored)
 
 ## Implemented

@@ -14,15 +14,15 @@ Continue the same chat only while the objective is unchanged. Start a new projec
 
 ## 2. Use files as durable memory
 
-At the start of a normal implementation task, Codex should use this order:
+At the start of a normal implementation task, the agent should use this order:
 
-1. Automatically follow `AGENTS.md`.
-2. Read `STATUS.md`.
-3. Read only the relevant section of `PROJECT_SPEC.md`.
+1. Automatically follow `AGENTS.md` and `.cursor/rules/product-badge-board.mdc`.
+2. Read `Docs/STATUS.md`.
+3. Read only the relevant section of `Docs/PROJECT_SPEC.md`.
 4. Inspect only the source files affected by the request.
-5. Read `CHANGELOG.md` only if prior behavior matters.
+5. Read `Docs/CHANGELOG.md` only if prior behavior matters.
 
-Do not ask Codex to reread the complete chat or scan the complete repository.
+Do not ask the agent to reread the complete chat or scan the complete repository.
 
 ## 3. Give compact task prompts
 
@@ -64,7 +64,7 @@ For each task:
 3. Run the narrowest useful check.
 4. Run the production build once after the implementation stabilizes.
 5. Perform browser QA only for material interaction or layout changes.
-6. Update `STATUS.md` and add one concise `CHANGELOG.md` entry.
+6. Update `Docs/STATUS.md` and add one concise `Docs/CHANGELOG.md` entry.
 7. Publish once after verification.
 
 Avoid rebuilding and redeploying after every tiny intermediate edit.
@@ -72,8 +72,8 @@ Avoid rebuilding and redeploying after every tiny intermediate edit.
 ## 6. Keep instruction context small
 
 - Keep `AGENTS.md` limited to durable rules.
-- Put detailed requirements in `PROJECT_SPEC.md`, not `AGENTS.md`.
-- Keep only the current state and one next task in `STATUS.md`.
+- Put detailed requirements in `Docs/PROJECT_SPEC.md`, not `AGENTS.md`.
+- Keep only the current state and one next task in `Docs/STATUS.md`.
 - Append short changelog entries; do not copy full implementation narratives.
 - Remove obsolete requirements instead of adding contradictory notes.
 
@@ -104,11 +104,11 @@ Before ending a substantial task, record:
 - Any known constraint.
 - Exactly one next task, if one exists.
 
-The next chat should be able to begin from `STATUS.md` without requiring the old transcript.
+The next chat should be able to begin from `Docs/STATUS.md` without requiring the old transcript.
 
 ## 10. Suggested project-chat rhythm
 
 - Keep this original chat as the product history.
 - Open a new chat inside the same local Project for each feature or fix.
 - Refer to the requirement by filename and section instead of pasting the full history.
-- When a chat becomes long but the objective is unchanged, compact it if available; otherwise finish the checkpoint, update `STATUS.md`, and continue in a focused new project chat.
+- When a chat becomes long but the objective is unchanged, compact it if available; otherwise finish the checkpoint, update `Docs/STATUS.md`, and continue in a focused new project chat.

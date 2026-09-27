@@ -1,5 +1,21 @@
 # Product Badge Board — Changelog
 
+## 2026-09-27 — Cursor skills and rules from source
+
+- Added always-on and file-scoped Cursor rules from `Docs/` and the current `site/`, `standalone/`, and `project-ui` layout.
+- Added an `align-board-surfaces` skill for shared visitor UI.
+- Refreshed New Changes skill/rule validation paths and reset the Codex New Changes template to a generic prompt.
+
+## 2026-09-27 — Cursor New Changes
+
+- Moved the New Changes launcher into Cursor as `.cursor/skills/new-changes/` and `.cursor/rules/new-changes.mdc`.
+- Removed the root `New Changes.webloc`.
+
+## 2026-09-27 — Centralized Docs
+
+- Moved product documentation into `Docs/` (`PROJECT_SPEC`, `STATUS`, `CHANGELOG`, `WORKFLOW`).
+- Left `AGENTS.md` and `README.md` at the repository root so agents and GitHub still find them.
+
 ## 2026-09-27 — Card skeletons
 
 - Replaced the solid loading blocks with card-shaped skeletons that mirror logo, title, idea, tags, and the link row in Cards and Compact views.

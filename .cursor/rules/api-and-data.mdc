@@ -1,0 +1,17 @@
+---
+description: Product Badge Board API, D1/R2 persistence, and public vs owner write access.
+globs:
+  - site/app/api/**/*.ts
+  - site/db/**/*.ts
+  - site/lib/admin.ts
+  - site/lib/api.ts
+alwaysApply: false
+---
+
+# API and data
+
+- Public GET: `/api/products`, `/api/profile`, `/api/logos/:key`. Writes need `x-admin-token` (`POST/PATCH/DELETE` products, reorder, profile, logo upload). `/api/admin/check` validates Owner mode.
+- CORS allows the standalone HTML to call the live Site. Do not break that.
+- D1 `products` and `board_profile`; R2 `BUCKET` for images. Featured sort then `sort_order`. New cards insert first (min sort_order − 1).
+- Passwords are stored and returned on public product GET. Treat them as demo credentials, not secrets.
+- Never log, print, or commit `ADMIN_TOKEN`.

@@ -3,9 +3,9 @@ interface:
   short_description: "Start a scoped Product Badge Board change"
   default_prompt: |-
     $new-changes
-    Read AGENTS.md and STATUS.md.
+    Read AGENTS.md and Docs/STATUS.md.
     Implement: <конкретна правка>.
-    Preserve existing behavior from PROJECT_SPEC.md.
+    Preserve existing behavior from Docs/PROJECT_SPEC.md.
 
 policy:
   allow_implicit_invocation: false

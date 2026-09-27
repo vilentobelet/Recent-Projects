@@ -1,15 +1,14 @@
-Read [AGENTS.md](../../AGENTS.md) and [STATUS.md](../../STATUS.md).
+Read [AGENTS.md](../../AGENTS.md) and [STATUS.md](../../Docs/STATUS.md).
 
-Implement: 
-1.  Лише на Мобільній - Mobile версії сайту, Web Desktop не чіпай  - потрібно перемістити Cards/Compact switcher в лінію з Recent Projects. Щоб легше було ним користуватись. 
+Implement: <конкретна правка>.
 
-Preserve existing behavior from [PROJECT_SPEC.md](../../PROJECT_SPEC.md).
+Preserve existing behavior from [PROJECT_SPEC.md](../../Docs/PROJECT_SPEC.md).
 
 ## Task
 
 - Title: <short task name>
 - Type: <feature / fix / UI / content / data>
-- Surface: <live site / Notion HTML / both>
+- Surface: <live site / Notion HTML / Storybook / all that apply>
 - Mode: <Viewer / Owner / both>
 - Devices: <desktop / mobile / both>
 
@@ -21,6 +20,6 @@ Preserve existing behavior from [PROJECT_SPEC.md](../../PROJECT_SPEC.md).
 
 - [ ] The requested behavior is implemented.
 - [ ] Existing public viewing and owner-only editing remain intact.
-- [ ] The React site and Notion HTML stay aligned when applicable.
+- [ ] The React site, standalone HTML, and project-ui stay aligned when applicable.
 - [ ] Desktop and mobile behavior is verified.
 - [ ] Relevant validation from AGENTS.md passes.

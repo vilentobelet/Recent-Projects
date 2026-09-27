@@ -8,22 +8,23 @@ https://product-badge-board.vilento-belet.chatgpt.site
 
 ## Documentation
 
-- `PROJECT_SPEC.md` — stable requirements and acceptance criteria.
-- `STATUS.md` — current production state and the next active task.
-- `CHANGELOG.md` — shipped behavior by version.
-- `WORKFLOW.md` — low-context development process.
-- `AGENTS.md` — concise rules Codex loads for this project.
+Product docs live in [`Docs/`](Docs/README.md):
+
+- [`Docs/PROJECT_SPEC.md`](Docs/PROJECT_SPEC.md) — stable requirements and acceptance criteria.
+- [`Docs/STATUS.md`](Docs/STATUS.md) — current production state and the next active task.
+- [`Docs/CHANGELOG.md`](Docs/CHANGELOG.md) — shipped behavior by version.
+- [`Docs/WORKFLOW.md`](Docs/WORKFLOW.md) — low-context development process.
+- [`AGENTS.md`](AGENTS.md) — concise rules Codex and Cursor load for this project.
+- Cursor skills and rules — `.cursor/skills/` and `.cursor/rules/`.
 
 ## Project structure
 
 ```text
 .
-├── .github/workflows/     # build + GitHub Pages publish
-├── AGENTS.md
-├── PROJECT_SPEC.md
-├── STATUS.md
-├── CHANGELOG.md
-├── WORKFLOW.md
+├── .cursor/               # Cursor skills and rules
+├── .github/workflows/     # Pages + Storybook CI
+├── AGENTS.md              # agent operating rules (root, auto-loaded)
+├── Docs/                  # product documentation
 ├── project-ui/            # React Project components + Storybook
 ├── standalone/            # TypeScript source for the static board
 ├── outputs/               # built HTML for Notion / Pages
