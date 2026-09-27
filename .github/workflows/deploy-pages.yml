@@ -30,11 +30,10 @@ jobs:
         with:
           node-version: "22"
 
-      - name: Build standalone board
-        working-directory: standalone
+      - name: Build Pages artifact
         run: |
-          npm install
-          npm run build
+          npm install --prefix standalone
+          npm run build --prefix standalone
 
       - name: Ensure Pages uses GitHub Actions
         env:
@@ -58,15 +57,10 @@ jobs:
         with:
           enablement: true
 
-      - name: Prepare static site
-        run: |
-          mkdir -p _site
-          cp outputs/notion-product-badge.html _site/index.html
-
-      - name: Upload artifact
+      - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v5
         with:
-          path: _site
+          path: outputs/pages
 
       - name: Deploy to GitHub Pages
         id: deployment

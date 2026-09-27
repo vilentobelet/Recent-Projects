@@ -1,0 +1,11 @@
+{
+  "name": "product-badge-board",
+  "private": true,
+  "scripts": {
+    "dev": "npm --prefix standalone run preview",
+    "build": "npm --prefix standalone run build",
+    "preview": "npm --prefix standalone run preview",
+    "site:dev": "npm --prefix site run dev",
+    "site:build": "npm --prefix site run build"
+  }
+}

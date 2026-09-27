@@ -34,5 +34,8 @@ archive/
 # Pages prepare directory
 _site/
 
+# Generated GitHub Pages folder (rebuilt from standalone/; same bytes as notion-product-badge.html)
+outputs/pages/
+
 # Storybook
 storybook-static/

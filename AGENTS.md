@@ -25,7 +25,8 @@
 - Production source: `site/`
 - Standalone TypeScript source: `standalone/src/`
 - Project React components + Storybook: `project-ui/`
-- Notion-downloadable HTML: `outputs/notion-product-badge.html` (built from `standalone/`)
+- Notion-downloadable HTML: `outputs/notion-product-badge.html` (same bytes as `outputs/pages/index.html`)
+- GitHub Pages + local preview artifact: `outputs/pages/` (built from `standalone/`)
 - Historical deployment archives: `archive/` — do not inspect unless recovery is requested.
 - Live site: `https://product-badge-board.vilento-belet.chatgpt.site`
 

@@ -71,7 +71,7 @@ Each project supports:
 
 - Frontend/full-stack framework: React 19, Next-compatible Vinext, TypeScript, Tailwind CSS.
 - Hosting: OpenAI Sites / Cloudflare Worker runtime.
-- Static GitHub Pages mirror: built from `standalone/src/` by `.github/workflows/deploy-pages.yml`, written to `outputs/notion-product-badge.html`, backed by the same hosted API.
+- Static GitHub Pages mirror and local `npm run dev` both use `outputs/pages/index.html`, built from `standalone/src/` by `npm run build` / `.github/workflows/deploy-pages.yml`, and backed by the same hosted API.
 - Repository layout: product docs in `Docs/`, card catalog in `data/projects.json`, Vinext app in `site/`, standalone TypeScript board in `standalone/`, React Project components and Storybook in `project-ui/`, Cursor skills and rules in `.cursor/`.
 - Cards are defined in `data/projects.json`, not in component source. An empty database is seeded from that file. Owner edits persist in D1.
 - Database: D1 with Drizzle-managed migrations.
@@ -80,7 +80,7 @@ Each project supports:
 - Owner authorization: runtime secret `ADMIN_TOKEN`, supplied as `x-admin-token` for write requests.
 - Public API reads: products and owner profile.
 - Owner-only writes: product create/update/delete/reorder, profile update, and image upload.
-- Downloadable standalone file: `outputs/notion-product-badge.html`, built from `standalone/src/` and backed by the same hosted API.
+- Downloadable standalone file: `outputs/notion-product-badge.html`, a byte copy of `outputs/pages/index.html`.
 
 ## API surface
 

@@ -1,5 +1,9 @@
 # Product Badge Board — Changelog
 
+## 2026-09-27 — Same Pages artifact locally and on GitHub
+
+- Local `npm run dev` builds and serves `outputs/pages/index.html`, the same file GitHub Actions uploads to Pages. `localhost:5173` remains the Vinext Sites app with a separate local database.
+
 ## 2026-09-27 — Board favicon
 
 - Replaced the board favicon with a peach four-point sparkle on a dark brown square, matching the provided mark.

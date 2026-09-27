@@ -5,8 +5,9 @@ Last updated: 2026-09-27
 ## GitHub Pages
 
 - Workflow: `.github/workflows/deploy-pages.yml`
-- Source: `standalone/src/` (TypeScript + CSS). Pipeline runs `npm --prefix standalone run build`.
-- Publishes the built `outputs/notion-product-badge.html` as the Pages site (`index.html`).
+- Source: `standalone/src/` (TypeScript + CSS). Local `npm run build` and CI both run `npm --prefix standalone run build`.
+- Shared artifact: `outputs/pages/index.html` (local preview at http://127.0.0.1:4173/ and the Pages upload path).
+- Notion copy of the same HTML: `outputs/notion-product-badge.html`.
 - The workflow enables Pages with `build_type: workflow` before deploy. If the token cannot create Pages, set Settings → Pages → Source → GitHub Actions and re-run.
 
 ## Production
@@ -28,6 +29,7 @@ Last updated: 2026-09-27
 - Migrations: `site/drizzle/`
 - Hosting configuration: `site/.openai/hosting.json`
 - Downloadable Notion HTML: `outputs/notion-product-badge.html` (generated)
+- GitHub Pages / local preview artifact: `outputs/pages/` (generated, same HTML as the Notion file)
 - Standalone TypeScript source: `standalone/src/`
 - Project React components + Storybook: `project-ui/`
 - GitHub Pages workflow: `.github/workflows/deploy-pages.yml`
@@ -62,6 +64,7 @@ Last updated: 2026-09-27
 - Compact view uses a two-column identity/actions grid from 768px so titles and tags no longer collapse beside long Figma URLs.
 - `data/projects.json` now holds the full 10-product live catalog (not a four-card sample).
 - Board favicon: peach sparkle on a dark brown square (`site/public/favicon.svg`).
+- Shared Pages artifact `outputs/pages/index.html` for local `npm run dev` and GitHub Actions.
 
 ## Verification
 
@@ -78,11 +81,13 @@ Last updated: 2026-09-27
 - Production, standalone, and Storybook builds passed after the compact responsive layout fix.
 - Catalog JSON synced from the live `/api/products` list (10 cards).
 - Favicon assets added and wired on production, standalone, and Storybook.
+- `outputs/pages/index.html` and `outputs/notion-product-badge.html` are identical after `npm run build`.
 
 ## Known constraints
 
 - Project passwords are publicly retrievable by design and are not suitable for sensitive secrets.
 - The standalone HTML depends on the live Sites API and network availability.
+- Local `npm run dev` (port 4173) is the Pages artifact. `site/` on port 5173 is the Vinext app with a local D1 database.
 - UI behavior shared by the production site and standalone HTML must be updated in both implementations.
 - Historical archives and the OpenAI Sites git backup are retained under `archive/` and are not part of normal development context.
 

@@ -2,9 +2,10 @@
 
 A public, responsive project access board designed for embedding in Notion. Recruiters can understand each product, filter by category, open links, and copy demo access details. Vitaliy Diduh can manage projects through token-protected Owner mode.
 
-## Live site
+## Live URLs
 
-https://product-badge-board.vilento-belet.chatgpt.site
+- Production (Vinext / D1 / R2): https://product-badge-board.vilento-belet.chatgpt.site
+- GitHub Pages (same HTML artifact as local `npm run dev`): https://vilentobelet.github.io/Recent-Projects/
 
 ## Documentation
 
@@ -29,29 +30,41 @@ Product docs live in [`Docs/`](Docs/README.md):
 │   └── projects.json
 ├── project-ui/            # React Project components + Storybook
 ├── standalone/            # TypeScript source for the static board
-├── outputs/               # built HTML for Notion / Pages
+├── outputs/
+│   ├── pages/             # GitHub Pages + local preview artifact
 │   └── notion-product-badge.html
-└── site/                  # production app (Vinext / Sites)
+└── site/                  # production Vinext app (Sites only)
 ```
 
-## Local development
+## Local development (same artifact as GitHub Pages)
 
-Run the production app from `site/`:
+From the repository root:
 
 ```sh
+npm --prefix standalone install
+npm run dev
+```
+
+This builds `outputs/pages/index.html` and serves it at http://127.0.0.1:4173/ — the same file GitHub Actions uploads to Pages. Cards load from the live Sites API.
+
+```sh
+npm run build    # write outputs/pages and the Notion HTML copy
+```
+
+## Production Sites app
+
+`localhost:5173` is the Vinext app in `site/`. It uses a **local** D1 database, not the Pages artifact. Use it only when working on the hosted API or Owner-mode server code:
+
+```sh
+cd site
 pnpm run dev
 pnpm run build
 pnpm run start
 ```
 
-Build the GitHub Pages / Notion HTML from `standalone/`:
+Or from the repo root: `npm run site:dev`.
 
-```sh
-npm --prefix standalone install
-npm --prefix standalone run build
-```
-
-Run Project component Storybook from `project-ui/`:
+## Storybook
 
 ```sh
 npm --prefix project-ui install
@@ -70,7 +83,7 @@ https://product-badge-board.vilento-belet.chatgpt.site/#admin=YOUR_TOKEN
 
 ## Notion embed
 
-Use the live URL for a Notion Embed block. `outputs/notion-product-badge.html` is the downloadable standalone alternative and reads the same hosted data.
+Use the live Sites URL for a Notion Embed block. `outputs/notion-product-badge.html` is a copy of the Pages HTML and reads the same hosted data.
 
 ## Safe credential use
 

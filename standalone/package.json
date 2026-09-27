@@ -3,7 +3,8 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "build": "node scripts/build.mjs"
+    "build": "node scripts/build.mjs",
+    "preview": "node scripts/preview.mjs"
   },
   "devDependencies": {
     "esbuild": "0.25.12",

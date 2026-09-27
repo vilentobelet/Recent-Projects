@@ -27,7 +27,14 @@ const html = readFileSync(join(standaloneRoot, "src/index.html"), "utf8")
   .replace("__FAVICON__", `data:image/svg+xml,${encodeURIComponent(faviconSvg)}`)
   .replace("__APPLE_TOUCH__", `data:image/png;base64,${appleTouch.toString("base64")}`);
 
-const outputPath = join(repoRoot, "outputs/notion-product-badge.html");
-mkdirSync(dirname(outputPath), { recursive: true });
-writeFileSync(outputPath, html);
-console.log(`Wrote ${outputPath}`);
+const pagesDir = join(repoRoot, "outputs/pages");
+const pagesIndex = join(pagesDir, "index.html");
+const notionPath = join(repoRoot, "outputs/notion-product-badge.html");
+
+mkdirSync(pagesDir, { recursive: true });
+writeFileSync(pagesIndex, html);
+writeFileSync(join(pagesDir, ".nojekyll"), "");
+writeFileSync(notionPath, html);
+
+console.log(`Wrote ${pagesIndex}`);
+console.log(`Wrote ${notionPath}`);
