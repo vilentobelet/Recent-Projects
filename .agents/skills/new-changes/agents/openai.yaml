@@ -1,0 +1,11 @@
+interface:
+  display_name: "New Changes"
+  short_description: "Start a scoped Product Badge Board change"
+  default_prompt: |-
+    $new-changes
+    Read AGENTS.md and STATUS.md.
+    Implement: <конкретна правка>.
+    Preserve existing behavior from PROJECT_SPEC.md.
+
+policy:
+  allow_implicit_invocation: false

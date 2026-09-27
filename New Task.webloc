@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+  <key>URL</key>
+  <string>codex://new?path=%2FUsers%2Fvilentobelet%2FDesktop%2FRecent%20Projects%20%3A%20Case%20Studies%20Web%20app&amp;prompt=Read%20%5BAGENTS.md%5D%28..%2FAGENTS.md%29%20and%20%5BSTATUS.md%5D%28..%2FSTATUS.md%29.%0A%0AImplement%3A%20%3Cconcrete%20change%3E.%0A%0APreserve%20existing%20behavior%20from%20%5BPROJECT_SPEC.md%5D%28..%2FPROJECT_SPEC.md%29.%0A%0A%23%23%20Task%0A%0A-%20Title%3A%20%3Cshort%20task%20name%3E%0A-%20Type%3A%20%3Cfeature%20%2F%20fix%20%2F%20UI%20%2F%20content%20%2F%20data%3E%0A-%20Surface%3A%20%3Clive%20site%20%2F%20Notion%20HTML%20%2F%20both%3E%0A-%20Mode%3A%20%3CViewer%20%2F%20Owner%20%2F%20both%3E%0A-%20Devices%3A%20%3Cdesktop%20%2F%20mobile%20%2F%20both%3E%0A%0A%23%23%20Full%20description%0A%0A%3CDescribe%20what%20should%20change%2C%20the%20intended%20behavior%2C%20and%20any%20relevant%20links%20or%20screenshots.%3E%0A%0A%23%23%20Expected%20results%0A%0A-%20%5B%20%5D%20The%20requested%20behavior%20is%20implemented.%0A-%20%5B%20%5D%20Existing%20public%20viewing%20and%20owner-only%20editing%20remain%20intact.%0A-%20%5B%20%5D%20The%20React%20site%20and%20Notion%20HTML%20stay%20aligned%20when%20applicable.%0A-%20%5B%20%5D%20Desktop%20and%20mobile%20behavior%20is%20verified.%0A-%20%5B%20%5D%20Relevant%20validation%20from%20AGENTS.md%20passes.%0A</string>
+</dict>
+</plist>
