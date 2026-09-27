@@ -19,7 +19,8 @@
 ## Project layout
 
 - Production source: `site/`
-- Notion-downloadable HTML: `outputs/notion-product-badge.html`
+- Standalone TypeScript source: `standalone/src/`
+- Notion-downloadable HTML: `outputs/notion-product-badge.html` (built from `standalone/`)
 - Historical deployment archives: `archive/` — do not inspect unless recovery is requested.
 - Live site: `https://product-badge-board.vilento-belet.chatgpt.site`
 
@@ -27,7 +28,7 @@
 
 - Keep changes scoped to the user's current request.
 - Preserve public viewing and owner-only editing.
-- Keep the React site and downloadable HTML behavior aligned when changing user-facing features.
+- Keep the React site and standalone TypeScript board aligned when changing user-facing features.
 - Use English for all UI copy.
 - Preserve the dark gray/black/orange visual system and responsive behavior.
 - Desktop Cards view uses two columns; mobile uses one column.
@@ -41,7 +42,7 @@
 ## Validation
 
 - For production UI or API changes, run `pnpm run build` in `site/`.
-- For downloadable HTML changes, parse the inline JavaScript with Node to catch syntax errors.
+- For downloadable HTML or GitHub Pages changes, edit `standalone/src/` and run `npm --prefix standalone run build`.
 - Perform focused browser QA when layout or interaction behavior changes materially.
 - Update `STATUS.md` after material work and add a concise entry to `CHANGELOG.md` for shipped behavior.
 - Publish Site changes unless the user explicitly requests local-only work.

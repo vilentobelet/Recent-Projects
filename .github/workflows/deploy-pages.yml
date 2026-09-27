@@ -25,6 +25,17 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v5
 
+      - name: Setup Node.js
+        uses: actions/setup-node@v5
+        with:
+          node-version: "22"
+
+      - name: Build standalone board
+        working-directory: standalone
+        run: |
+          npm install
+          npm run build
+
       - name: Ensure Pages uses GitHub Actions
         env:
           GH_TOKEN: ${{ github.token }}

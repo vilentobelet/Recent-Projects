@@ -5,7 +5,8 @@ Last updated: 2026-09-27
 ## GitHub Pages
 
 - Workflow: `.github/workflows/deploy-pages.yml`
-- Publishes `outputs/notion-product-badge.html` as the Pages site (`index.html`).
+- Source: `standalone/src/` (TypeScript + CSS). Pipeline runs `npm --prefix standalone run build`.
+- Publishes the built `outputs/notion-product-badge.html` as the Pages site (`index.html`).
 - The workflow enables Pages with `build_type: workflow` before deploy. If the token cannot create Pages, set Settings → Pages → Source → GitHub Actions and re-run.
 
 ## Production
@@ -24,7 +25,8 @@ Last updated: 2026-09-27
 - API routes: `site/app/api/`
 - Migrations: `site/drizzle/`
 - Hosting configuration: `site/.openai/hosting.json`
-- Downloadable Notion HTML: `outputs/notion-product-badge.html`
+- Downloadable Notion HTML: `outputs/notion-product-badge.html` (generated)
+- Standalone TypeScript source: `standalone/src/`
 - GitHub Pages workflow: `.github/workflows/deploy-pages.yml`
 - Local OpenAI Sites git backup: `archive/openai-sites.git` (gitignored)
 

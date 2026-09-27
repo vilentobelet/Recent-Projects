@@ -1,5 +1,10 @@
 # Product Badge Board — Changelog
 
+## 2026-09-27 — TypeScript Pages pipeline
+
+- Moved the static board into `standalone/src/` TypeScript and CSS.
+- GitHub Actions now installs Node, builds that source, and publishes the generated HTML.
+
 ## 2026-09-27 — GitHub Pages visual match
 
 - Aligned the standalone GitHub Pages HTML with the live board typography, lucide-style icons, and button treatment.

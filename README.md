@@ -18,25 +18,33 @@ https://product-badge-board.vilento-belet.chatgpt.site
 
 ```text
 .
-├── .github/workflows/     # GitHub Pages publish
+├── .github/workflows/     # build + GitHub Pages publish
 ├── AGENTS.md
 ├── PROJECT_SPEC.md
 ├── STATUS.md
 ├── CHANGELOG.md
 ├── WORKFLOW.md
-├── outputs/               # standalone HTML for Notion / Pages
+├── standalone/            # TypeScript source for the static board
+├── outputs/               # built HTML for Notion / Pages
 │   └── notion-product-badge.html
 └── site/                  # production app (Vinext / Sites)
 ```
 
 ## Local development
 
-Run commands from `site/`:
+Run the production app from `site/`:
 
 ```sh
 pnpm run dev
 pnpm run build
 pnpm run start
+```
+
+Build the GitHub Pages / Notion HTML from `standalone/`:
+
+```sh
+npm --prefix standalone install
+npm --prefix standalone run build
 ```
 
 Node.js 22.13 or newer is required. The production runtime uses the D1 `DB` binding, R2 `BUCKET` binding, and an `ADMIN_TOKEN` secret.
