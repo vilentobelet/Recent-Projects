@@ -17,28 +17,46 @@ concurrency:
 jobs:
   deploy:
     name: Publish static board
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
+
+      - name: Ensure Pages uses GitHub Actions
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          if gh api "repos/${GITHUB_REPOSITORY}/pages" --jq .build_type >/tmp/pages-build 2>/tmp/pages-err; then
+            if [ "$(cat /tmp/pages-build)" != "workflow" ]; then
+              gh api --method PUT "repos/${GITHUB_REPOSITORY}/pages" -f build_type=workflow >/dev/null
+            fi
+          else
+            if ! gh api --method POST "repos/${GITHUB_REPOSITORY}/pages" -f build_type=workflow >/dev/null; then
+              echo "::error::Could not enable GitHub Pages from this workflow token. Open Settings → Pages → Source, choose GitHub Actions, then re-run."
+              cat /tmp/pages-err
+              exit 1
+            fi
+          fi
 
       - name: Configure Pages
-        uses: actions/configure-pages@v5
+        uses: actions/configure-pages@v6
+        with:
+          enablement: true
 
       - name: Prepare static site
         run: |
           mkdir -p _site
           cp outputs/notion-product-badge.html _site/index.html
-          touch _site/.nojekyll
 
       - name: Upload artifact
-        uses: actions/upload-pages-artifact@v3
+        uses: actions/upload-pages-artifact@v5
         with:
           path: _site
 
       - name: Deploy to GitHub Pages
         id: deployment
-        uses: actions/deploy-pages@v4
+        uses: actions/deploy-pages@v5

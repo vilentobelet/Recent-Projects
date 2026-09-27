@@ -6,8 +6,7 @@ Last updated: 2026-09-27
 
 - Workflow: `.github/workflows/deploy-pages.yml`
 - Publishes `outputs/notion-product-badge.html` as the Pages site (`index.html`).
-- Enable Pages in the GitHub repo: Settings → Pages → Source → GitHub Actions.
-- Push to `main` (or run the workflow manually) after the repo has a GitHub remote.
+- The workflow enables Pages with `build_type: workflow` before deploy. If the token cannot create Pages, set Settings → Pages → Source → GitHub Actions and re-run.
 
 ## Production
 
