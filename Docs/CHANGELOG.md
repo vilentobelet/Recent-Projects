@@ -1,5 +1,9 @@
 # Product Badge Board — Changelog
 
+## 2026-09-27 — Board favicon
+
+- Replaced the board favicon with a peach four-point sparkle on a dark brown square, matching the provided mark.
+
 ## 2026-09-27 — Full live catalog in JSON
 
 - Copied all 10 live board products into `data/projects.json` so Storybook, empty-database seed, and the standalone fallback match production.

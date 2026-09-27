@@ -61,6 +61,7 @@ Last updated: 2026-09-27
 - Project cards are loaded from `data/projects.json` (Storybook, D1 seed, standalone fallback) rather than hardcoded arrays.
 - Compact view uses a two-column identity/actions grid from 768px so titles and tags no longer collapse beside long Figma URLs.
 - `data/projects.json` now holds the full 10-product live catalog (not a four-card sample).
+- Board favicon: peach sparkle on a dark brown square (`site/public/favicon.svg`).
 
 ## Verification
 
@@ -76,6 +77,7 @@ Last updated: 2026-09-27
 - Site, Storybook, and standalone builds passed after moving cards into `data/projects.json`.
 - Production, standalone, and Storybook builds passed after the compact responsive layout fix.
 - Catalog JSON synced from the live `/api/products` list (10 cards).
+- Favicon assets added and wired on production, standalone, and Storybook.
 
 ## Known constraints
 

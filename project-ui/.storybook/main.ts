@@ -3,6 +3,8 @@ import type { StorybookConfig } from "@storybook/react-vite";
 const config: StorybookConfig = {
   stories: ["../src/**/*.stories.@(ts|tsx)"],
   addons: ["@storybook/addon-essentials"],
+  staticDirs: ["../public"],
+  managerHead: (head) => `${head}<link rel="icon" type="image/svg+xml" href="favicon.svg" />`,
   framework: {
     name: "@storybook/react-vite",
     options: {},

@@ -28,6 +28,7 @@ Each project supports:
 
 - All UI copy is English.
 - Header title: `Recent Projects.`
+- Browser tab uses a peach four-point sparkle on a dark brown square.
 - Owner badge: avatar, `Vitaliy Diduh`, and LinkedIn `in` mark in the header action row.
 - A matching `My portfolio` badge links to `https://vitaliydiduh.com/` and uses the portfolio site's favicon.
 - Categories are generated from all unique project tags and include `All`.
