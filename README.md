@@ -25,6 +25,8 @@ Product docs live in [`Docs/`](Docs/README.md):
 ├── .github/workflows/     # Pages + Storybook CI
 ├── AGENTS.md              # agent operating rules (root, auto-loaded)
 ├── Docs/                  # product documentation
+├── data/                  # project card JSON catalog
+│   └── projects.json
 ├── project-ui/            # React Project components + Storybook
 ├── standalone/            # TypeScript source for the static board
 ├── outputs/               # built HTML for Notion / Pages

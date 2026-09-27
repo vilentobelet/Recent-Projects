@@ -1,6 +1,7 @@
 import { useState, type CSSProperties } from "react";
 import type { Meta, StoryObj } from "@storybook/react";
 import { ProjectLinkRow } from "../components/ProjectLinkRow";
+import { catalogLink } from "./fixtures";
 
 const meta = {
   title: "Project/ProjectLinkRow",
@@ -15,7 +16,7 @@ export const Site: Story = {
     const [copied, setCopied] = useState(false);
     return (
       <div className="max-w-lg" style={{ "--card-accent": "#f97316", "--card-soft": "rgba(249,115,22,.12)" } as CSSProperties}>
-        <ProjectLinkRow link="https://fieldnode.com" copied={copied} onCopy={() => setCopied(true)} />
+        <ProjectLinkRow link={catalogLink("site")} copied={copied} onCopy={() => setCopied(true)} />
       </div>
     );
   },
@@ -24,7 +25,7 @@ export const Site: Story = {
 export const Figma: Story = {
   render: () => (
     <div className="max-w-lg" style={{ "--card-accent": "#f97316", "--card-soft": "rgba(249,115,22,.12)" } as CSSProperties}>
-      <ProjectLinkRow link="https://www.figma.com/design/MkXho11dOzAd3OI9l75731/Design-System" copied={false} onCopy={() => undefined} />
+      <ProjectLinkRow link={catalogLink("figma")} copied={false} onCopy={() => undefined} />
     </div>
   ),
 };

@@ -1,13 +1,13 @@
 import { useState } from "react";
 import type { Meta, StoryObj } from "@storybook/react";
 import { ProjectCard } from "../components/ProjectCard";
-import { fieldnode, fieldnodeDesignSystem, roadman, scholarsapp } from "./fixtures";
+import { projectByName, sampleProjects } from "./fixtures";
 
 const meta = {
   title: "Project/ProjectCard",
   component: ProjectCard,
   parameters: { layout: "padded" },
-  args: { project: fieldnode, viewMode: "cards" },
+  args: { project: projectByName("Fieldnode"), viewMode: "cards" },
 } satisfies Meta<typeof ProjectCard>;
 
 export default meta;
@@ -22,7 +22,7 @@ export const FeaturedWithPassword: Story = {
     return (
       <div className="max-w-[560px]">
         <ProjectCard
-          project={fieldnodeDesignSystem}
+          project={projectByName("Fieldnode - Design System")}
           passwordVisible={visible}
           copied={copied}
           onTogglePassword={() => setVisible((value) => !value)}
@@ -35,16 +35,15 @@ export const FeaturedWithPassword: Story = {
 };
 
 export const Compact: Story = {
-  args: { project: scholarsapp, viewMode: "compact" },
+  args: { project: projectByName("Scholarsapp"), viewMode: "compact" },
 };
 
 export const TwoColumnBoard: Story = {
   render: () => (
     <div className="grid grid-cols-1 gap-3.5 md:grid-cols-2">
-      <ProjectCard project={fieldnode} />
-      <ProjectCard project={fieldnodeDesignSystem} />
-      <ProjectCard project={scholarsapp} />
-      <ProjectCard project={roadman} />
+      {sampleProjects.map((project) => (
+        <ProjectCard key={project.id} project={project} />
+      ))}
     </div>
   ),
 };

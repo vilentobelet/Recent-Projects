@@ -1,4 +1,5 @@
 // @ts-nocheck
+import catalog from "../../data/projects.json";
 /**
  * Standalone Product Badge Board.
  * Reads and edits the same hosted API as the Vinext site.
@@ -82,7 +83,7 @@ function render(){
   const filtered=activeCategory==='All'?products:products.filter(p=>String(p.industry||'').split(',').some(tag=>tag.trim().toLowerCase()===activeCategory.toLowerCase()));
   const cards=filtered.map(p=>editing===p.id?form(p,p.id):card(p)).join('');const empty=products.length?`<div class="empty"><div><strong>No ${esc(activeCategory)} projects yet</strong><br><button class="btn" type="button" data-category="All">Show all projects</button></div></div>`:'<div class="empty">No products yet</div>';$('#grid').innerHTML=(adding?form():"")+cards||(adding?'':empty);layoutGrid();$('#grid').querySelectorAll('img').forEach(img=>img.addEventListener('load',layoutGrid,{once:true}));
 }
-async function load(){try{const r=await fetch(API_BASE+'/api/products');if(!r.ok)throw Error();products=(await r.json()).products;render();if(!scrollRestored){const saved=Number(sessionStorage.getItem('product-badge-scroll')||0);requestAnimationFrame(()=>requestAnimationFrame(()=>{scrollTo(0,saved);scrollRestored=true}))}}catch{$('#grid').innerHTML='<div class="empty">Product data is temporarily unavailable.</div>';$('#count').textContent='Could not load products'}}
+async function load(){try{const r=await fetch(API_BASE+'/api/products');if(!r.ok)throw Error();products=(await r.json()).products;if(!products?.length)products=catalog.projects;render();if(!scrollRestored){const saved=Number(sessionStorage.getItem('product-badge-scroll')||0);requestAnimationFrame(()=>requestAnimationFrame(()=>{scrollTo(0,saved);scrollRestored=true}))}}catch{products=catalog.projects;render()}}
 async function loadProfile(){try{const r=await fetch(API_BASE+'/api/profile');if(!r.ok)throw Error();profile=(await r.json()).profile||profile;renderProfile()}catch{renderProfile()}}
 function clearDrag(){$('#grid').querySelectorAll('.dragging,.drag-over').forEach(el=>el.classList.remove('dragging','drag-over'));dragId=null;overId=null}
 function markTarget(card){if(!card)return;const id=Number(card.dataset.productId);if(id===dragId)return;$('#grid').querySelectorAll('.drag-over').forEach(el=>el.classList.remove('drag-over'));card.classList.add('drag-over');overId=id}

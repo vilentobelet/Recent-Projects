@@ -11,7 +11,7 @@ alwaysApply: false
 
 Production board: `site/components/product-board.tsx` plus `site/components/project-card-skeleton.tsx`. Vinext does not import `project-ui` as a package.
 
-Presentational kit + Storybook: `project-ui/src/` (`ProjectCard`, skeleton, header, filters, link/password rows). Stories in `project-ui/src/stories/`.
+Presentational kit + Storybook: `project-ui/src/` (`ProjectCard`, skeleton, header, filters, link/password rows). Stories in `project-ui/src/stories/`. Card samples come from `data/projects.json`.
 
 Static/Pages board: `standalone/src/` (`board.ts`, `styles.css`, `index.html`). Build with `npm --prefix standalone run build`.
 

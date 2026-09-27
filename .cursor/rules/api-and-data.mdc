@@ -11,6 +11,7 @@ alwaysApply: false
 # API and data
 
 - Public GET: `/api/products`, `/api/profile`, `/api/logos/:key`. Writes need `x-admin-token` (`POST/PATCH/DELETE` products, reorder, profile, logo upload). `/api/admin/check` validates Owner mode.
+- Card content lives in `data/projects.json`. Do not hardcode project cards in TypeScript. Empty D1 databases seed from that file; Storybook reads it; standalone uses it if the API is empty or unavailable.
 - CORS allows the standalone HTML to call the live Site. Do not break that.
 - D1 `products` and `board_profile`; R2 `BUCKET` for images. Featured sort then `sort_order`. New cards insert first (min sort_order − 1).
 - Passwords are stored and returned on public product GET. Treat them as demo credentials, not secrets.

@@ -9,6 +9,8 @@ All product documentation for the Product Badge Board lives in this folder.
 | [CHANGELOG.md](CHANGELOG.md) | Shipped behavior by version |
 | [WORKFLOW.md](WORKFLOW.md) | Low-context development process |
 
+Card content is not documented as markdown. Edit [`data/projects.json`](../data/projects.json) to add or change sample cards.
+
 ## Agent guidance
 
 | Location | Purpose |

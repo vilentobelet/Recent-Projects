@@ -19,7 +19,7 @@
 
 ## Project layout
 
-- Product documentation: `Docs/`
+- Product data catalog: `data/projects.json` (seed, Storybook, standalone fallback). Do not hardcode cards in source.
 - Cursor skills: `.cursor/skills/` (`new-changes`, `align-board-surfaces`)
 - Cursor rules: `.cursor/rules/` (always-on board rules plus New Changes, board UI, and API)
 - Production source: `site/`

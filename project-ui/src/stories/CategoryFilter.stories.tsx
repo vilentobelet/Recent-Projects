@@ -1,8 +1,7 @@
 import { useState } from "react";
 import type { Meta, StoryObj } from "@storybook/react";
 import { CategoryFilter } from "../components/CategoryFilter";
-
-const categories = ["All", "B2B", "Design System", "Saas", "EdTech", "AI", "Dashboard", "Web app"];
+import { catalogCategories } from "./fixtures";
 
 const meta = {
   title: "Project/CategoryFilter",
@@ -15,6 +14,6 @@ type Story = StoryObj<typeof meta>;
 export const Default: Story = {
   render: function Render() {
     const [selected, setSelected] = useState("All");
-    return <CategoryFilter categories={categories} selected={selected} onSelect={setSelected} />;
+    return <CategoryFilter categories={catalogCategories()} selected={selected} onSelect={setSelected} />;
   },
 };

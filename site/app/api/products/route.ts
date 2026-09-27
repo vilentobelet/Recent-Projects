@@ -1,12 +1,7 @@
 import { getD1 } from "@/db";
 import { requireAdmin } from "@/lib/admin";
 import { corsHeaders, json, validateProduct } from "@/lib/api";
-
-const starterProducts = [
-  ["Creative AI", "Storyboard", "Turn a rough campaign idea into a clear visual sequence for quick team review.", "https://example.com/storyboard", "orange-demo"],
-  ["Analytics", "Signal Desk", "A focused dashboard for checking product health without digging through reports.", "https://example.com/signal-desk", "view-only"],
-  ["Operations", "Launchpad", "Keep launch links, environments, and access details together in one reliable place.", "https://example.com/launchpad", "team-access"],
-] as const;
+import catalog from "../../../../data/projects.json";
 
 export function OPTIONS() { return new Response(null, { status: 204, headers: corsHeaders }); }
 export async function GET() {
@@ -15,7 +10,7 @@ export async function GET() {
     const count = await db.prepare("SELECT COUNT(*) AS count FROM products").first<{ count: number }>();
     if (!count?.count) {
       const now = Date.now();
-      await db.batch(starterProducts.map((product, index) => db.prepare("INSERT INTO products (industry, name, idea, link, password, sort_order, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?)").bind(...product, index, now, now)));
+      await db.batch(catalog.projects.map((product, index) => db.prepare("INSERT INTO products (industry, name, idea, link, password, color, logo_url, featured, sort_order, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)").bind(product.industry, product.name, product.idea, product.link, product.password, product.color, product.logoUrl, product.featured ? 1 : 0, product.sortOrder ?? index, now, now)));
     }
     const result = await db.prepare("SELECT id, industry, name, idea, link, password, color, logo_url AS logoUrl, featured, sort_order AS sortOrder FROM products ORDER BY featured DESC, sort_order ASC, id ASC").all();
     return json({ products: result.results });

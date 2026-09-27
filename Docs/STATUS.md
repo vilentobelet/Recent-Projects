@@ -20,6 +20,7 @@ Last updated: 2026-09-27
 ## Working files
 
 - Product documentation: `Docs/`
+- Card catalog JSON: `data/projects.json`
 - Production source: `site/`
 - Main UI: `site/components/product-board.tsx`
 - Schema: `site/db/schema.ts`
@@ -57,6 +58,7 @@ Last updated: 2026-09-27
 - D1 persistence and R2 image storage.
 - Standalone downloadable HTML connected to the production API.
 - Card-shaped loading skeletons for Cards and Compact views.
+- Project cards are loaded from `data/projects.json` (Storybook, D1 seed, standalone fallback) rather than hardcoded arrays.
 
 ## Verification
 
@@ -69,6 +71,7 @@ Last updated: 2026-09-27
 - Card skeleton stories added for Cards, Compact, and two-column loading states.
 - Production Vinext build passed after adding card skeletons.
 - Standalone HTML rebuilt with card-shaped loading skeletons.
+- Site, Storybook, and standalone builds passed after moving cards into `data/projects.json`.
 
 ## Known constraints
 

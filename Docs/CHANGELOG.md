@@ -1,5 +1,10 @@
 # Product Badge Board — Changelog
 
+## 2026-09-27 — JSON card catalog
+
+- Moved project card content into `data/projects.json`.
+- Storybook, empty-database seeding, and the standalone board fallback now read that file instead of hardcoded card arrays.
+
 ## 2026-09-27 — Cursor skills and rules from source
 
 - Added always-on and file-scoped Cursor rules from `Docs/` and the current `site/`, `standalone/`, and `project-ui` layout.
