@@ -1,5 +1,9 @@
 # Product Badge Board — Changelog
 
+## 2026-09-27 — GitHub Pages visual match
+
+- Aligned the standalone GitHub Pages HTML with the live board typography, lucide-style icons, and button treatment.
+
 ## 2026-09-27 — GitHub Pages workflow
 
 - Enabled Pages from the workflow, switched to Node 24 action majors, and pinned `ubuntu-24.04`.
