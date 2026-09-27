@@ -52,6 +52,7 @@ Last updated: 2026-09-27
 - Password rows precede project links; opening a protected resource copies its password first and confirms with a toast.
 - D1 persistence and R2 image storage.
 - Standalone downloadable HTML connected to the production API.
+- Card-shaped loading skeletons for Cards and Compact views.
 
 ## Verification
 
@@ -61,6 +62,9 @@ Last updated: 2026-09-27
 - Live production QA confirmed the 48px control heights, portfolio link, stable scrollbar gutter, and unchanged 1180px board width before/after B2B filtering.
 - Version 11 deployment completed successfully.
 - `project-ui` Storybook production build succeeded (`storybook-static/`).
+- Card skeleton stories added for Cards, Compact, and two-column loading states.
+- Production Vinext build passed after adding card skeletons.
+- Standalone HTML rebuilt with card-shaped loading skeletons.
 
 ## Known constraints
 

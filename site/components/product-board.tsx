@@ -9,6 +9,7 @@ import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Switch } from "@/components/ui/switch";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
+import { ProjectCardSkeleton } from "@/components/project-card-skeleton";
 
 const COLOR_THEMES = {
   orange: { name: "Orange", accent: "#f97316", soft: "rgba(249,115,22,.12)", border: "rgba(249,115,22,.28)" },
@@ -591,8 +592,8 @@ export default function ProductBoard() {
         </div>}
         {error && <div className="mb-6 rounded-2xl border border-red-500/20 bg-red-500/10 p-4 text-sm text-red-200">{error}</div>}
         {adding && <article className="relative mb-3.5 overflow-hidden rounded-[1.4rem] border border-orange-500/25 bg-[#202020] p-5 shadow-[0_18px_55px_rgba(0,0,0,.22)] sm:p-6"><div className="mb-5 flex items-center gap-3"><span className="grid size-10 place-items-center rounded-xl bg-orange-500/10 text-orange-400"><PackagePlus className="size-5" /></span><div><p className="text-xs font-semibold uppercase tracking-[0.14em] text-orange-400">New card</p><h2 className="text-lg font-semibold">Add a product</h2></div></div><ProductForm initial={EMPTY_DRAFT} saving={saving} token={token} onSave={create} onCancel={() => setAdding(false)} submitLabel="Add product" /></article>}
-        <section aria-label="Products" className={viewMode === "cards" ? "grid auto-rows-[4px] grid-cols-1 items-start gap-x-3.5 gap-y-0 md:grid-cols-2" : "grid grid-cols-1 items-start gap-2.5"}>
-          {loading && [0, 1].map((item) => <div key={item} style={viewMode === "cards" ? { gridRowEnd: "span 74" } : undefined} className={`${viewMode === "cards" ? "h-[280px] rounded-[1.4rem]" : "h-28 rounded-2xl"} w-full animate-pulse border border-white/[0.06] bg-[#1c1c1c]`} />)}
+        <section aria-label="Products" aria-busy={loading} className={viewMode === "cards" ? "grid auto-rows-[4px] grid-cols-1 items-start gap-x-3.5 gap-y-0 md:grid-cols-2" : "grid grid-cols-1 items-start gap-2.5"}>
+          {loading && [0, 1, 2, 3].map((item) => <ProjectCardSkeleton key={item} viewMode={viewMode} />)}
           {!loading && visibleProducts.map((product) => <ProductCard key={product.id} product={product} viewMode={viewMode} isAdmin={isAdmin} token={token} onChanged={loadProducts} draggingId={draggingId} overId={overId} onDragStart={(id) => { setDraggingId(id); setOverId(id); }} onDragOver={setOverId} onDrop={finishDrop} onDragEnd={() => { setDraggingId(null); setOverId(null); }} onPointerMove={trackPointer} onPointerDrop={() => finishDrop(overId)} />)}
         </section>
         {!loading && !error && products.length > 0 && visibleProducts.length === 0 && <section className="grid min-h-48 place-items-center rounded-[1.6rem] border border-dashed border-white/10 bg-white/[0.02] px-6 text-center"><div><h2 className="text-lg font-semibold">No {selectedCategory} projects yet</h2><button type="button" onClick={() => setActiveCategory("All")} className="mt-2 text-sm font-semibold text-orange-400 hover:text-orange-300">Show all projects</button></div></section>}

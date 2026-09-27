@@ -1,5 +1,9 @@
 # Product Badge Board — Changelog
 
+## 2026-09-27 — Card skeletons
+
+- Replaced the solid loading blocks with card-shaped skeletons that mirror logo, title, idea, tags, and the link row in Cards and Compact views.
+
 ## 2026-09-27 — Project UI Storybook
 
 - Added React Project components (`ProjectCard`, filters, link/password rows) in `project-ui/`.

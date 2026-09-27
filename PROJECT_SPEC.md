@@ -61,6 +61,7 @@ Each project supports:
 
 - Modern dark interface using black and charcoal surfaces with orange as the primary accent.
 - Compact cards with content-driven height; avoid unnecessary empty space.
+- While products load, the grid shows card-shaped skeletons that match Cards and Compact layouts.
 - Rounded surfaces, subtle borders, minimal shadow, and strong accessible contrast.
 - Responsive at phone and desktop widths inside a Notion embed.
 - Filtering must not resize or horizontally shift the centered content container when the page becomes shorter than the viewport.

@@ -5,6 +5,7 @@ export { CategoryFilter } from "./components/CategoryFilter";
 export { FeaturedBadge } from "./components/FeaturedBadge";
 export { LinkKindBadge } from "./components/LinkKindBadge";
 export { ProjectCard } from "./components/ProjectCard";
+export { ProjectCardSkeleton, ProjectCardSkeletonGrid } from "./components/ProjectCardSkeleton";
 export { ProjectLinkRow } from "./components/ProjectLinkRow";
 export { ProjectLogo } from "./components/ProjectLogo";
 export { ProjectPasswordRow } from "./components/ProjectPasswordRow";
