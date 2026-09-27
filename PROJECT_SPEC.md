@@ -69,6 +69,8 @@ Each project supports:
 
 - Frontend/full-stack framework: React 19, Next-compatible Vinext, TypeScript, Tailwind CSS.
 - Hosting: OpenAI Sites / Cloudflare Worker runtime.
+- Static GitHub Pages mirror: `outputs/notion-product-badge.html` published as `index.html` by `.github/workflows/deploy-pages.yml`, backed by the same hosted API.
+- Repository layout: product docs at the repo root, application source in `site/`.
 - Database: D1 with Drizzle-managed migrations.
 - Image storage: R2 binding `BUCKET`.
 - Database binding: `DB`.

@@ -2,6 +2,13 @@
 
 Last updated: 2026-09-27
 
+## GitHub Pages
+
+- Workflow: `.github/workflows/deploy-pages.yml`
+- Publishes `outputs/notion-product-badge.html` as the Pages site (`index.html`).
+- Enable Pages in the GitHub repo: Settings → Pages → Source → GitHub Actions.
+- Push to `main` (or run the workflow manually) after the repo has a GitHub remote.
+
 ## Production
 
 - Status: live and public.
@@ -12,13 +19,15 @@ Last updated: 2026-09-27
 
 ## Working files
 
-- Production source: `work/product-badge-site/`
-- Main UI: `work/product-badge-site/components/product-board.tsx`
-- Schema: `work/product-badge-site/db/schema.ts`
-- API routes: `work/product-badge-site/app/api/`
-- Migrations: `work/product-badge-site/drizzle/`
-- Hosting configuration: `work/product-badge-site/.openai/hosting.json`
+- Production source: `site/`
+- Main UI: `site/components/product-board.tsx`
+- Schema: `site/db/schema.ts`
+- API routes: `site/app/api/`
+- Migrations: `site/drizzle/`
+- Hosting configuration: `site/.openai/hosting.json`
 - Downloadable Notion HTML: `outputs/notion-product-badge.html`
+- GitHub Pages workflow: `.github/workflows/deploy-pages.yml`
+- Local OpenAI Sites git backup: `archive/openai-sites.git` (gitignored)
 
 ## Implemented
 
@@ -55,7 +64,7 @@ Last updated: 2026-09-27
 - Project passwords are publicly retrievable by design and are not suitable for sensitive secrets.
 - The standalone HTML depends on the live Sites API and network availability.
 - UI behavior shared by the production site and standalone HTML must be updated in both implementations.
-- Historical deployment archives are retained under `work/`; they are not part of normal development context.
+- Historical archives and the OpenAI Sites git backup are retained under `archive/` and are not part of normal development context.
 
 ## Next task
 

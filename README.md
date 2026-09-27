@@ -18,21 +18,20 @@ https://product-badge-board.vilento-belet.chatgpt.site
 
 ```text
 .
+├── .github/workflows/     # GitHub Pages publish
 ├── AGENTS.md
 ├── PROJECT_SPEC.md
 ├── STATUS.md
 ├── CHANGELOG.md
 ├── WORKFLOW.md
-├── outputs/
+├── outputs/               # standalone HTML for Notion / Pages
 │   └── notion-product-badge.html
-└── work/
-    ├── product-badge-site/
-    └── product-badge-site-archive-v*.tar.gz
+└── site/                  # production app (Vinext / Sites)
 ```
 
 ## Local development
 
-Run commands from `work/product-badge-site/`:
+Run commands from `site/`:
 
 ```sh
 pnpm run dev

@@ -81,7 +81,7 @@ Avoid rebuilding and redeploying after every tiny intermediate edit.
 
 Do not load these unless the current task needs them:
 
-- Historical `work/*.tar.gz` deployment archives.
+- Historical `archive/` deployment backups.
 - `node_modules` or generated build artifacts.
 - Entire command logs.
 - All migrations when only UI is changing.

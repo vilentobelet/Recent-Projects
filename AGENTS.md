@@ -18,9 +18,9 @@
 
 ## Project layout
 
-- Production source: `work/product-badge-site/`
+- Production source: `site/`
 - Notion-downloadable HTML: `outputs/notion-product-badge.html`
-- Historical deployment archives: `work/*.tar.gz` — do not inspect unless recovery is requested.
+- Historical deployment archives: `archive/` — do not inspect unless recovery is requested.
 - Live site: `https://product-badge-board.vilento-belet.chatgpt.site`
 
 ## Working agreements
@@ -40,7 +40,7 @@
 
 ## Validation
 
-- For production UI or API changes, run `pnpm run build` in `work/product-badge-site/`.
+- For production UI or API changes, run `pnpm run build` in `site/`.
 - For downloadable HTML changes, parse the inline JavaScript with Node to catch syntax errors.
 - Perform focused browser QA when layout or interaction behavior changes materially.
 - Update `STATUS.md` after material work and add a concise entry to `CHANGELOG.md` for shipped behavior.

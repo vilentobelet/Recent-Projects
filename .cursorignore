@@ -1,0 +1,10 @@
+.pnpm-store/
+node_modules/
+site/node_modules/
+site/dist/
+site/.next/
+site/.vinext/
+site/.wrangler/
+site/.sites-runtime/
+archive/
+_site/

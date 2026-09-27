@@ -1,5 +1,15 @@
 # Product Badge Board — Changelog
 
+## 2026-09-27 — Repository layout
+
+- Moved the production app to `site/` and stopped treating it as a nested git repository.
+- Added a root `.gitignore` so caches, build output, `.DS_Store`, and `archive/` stay out of git.
+- Kept product docs, GitHub Actions, and the Notion HTML at the repository root.
+
+## 2026-09-27 — GitHub Pages
+
+- Added a GitHub Actions workflow that publishes the standalone board HTML to GitHub Pages.
+
 ## 2026-09-27 — Version 11
 
 - Prevented the centered board container from resizing or shifting when category filtering removes the page scrollbar.
