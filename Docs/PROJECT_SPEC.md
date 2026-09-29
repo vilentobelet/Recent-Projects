@@ -38,15 +38,15 @@ Each project supports:
 - The owner badge, portfolio badge, and Cards/Compact toggle are equal-height controls aligned with the `Recent Projects.` headline on desktop.
 - View mode, selected category, and scroll position persist within the browser session.
 - Cards view uses two columns on desktop and one column on mobile.
-- Compact view uses a two-column row from 768px (identity | actions) and stacks on phones. Titles stay on one truncated line; long URLs show host plus short path segments (Figma file keys are omitted), with the full URL in the tooltip. Copy stays hidden on small screens so the host can remain readable.
+- Compact view uses a two-column row from 768px (identity | actions) and stacks on phones. Titles stay on one truncated line; long URLs show host plus short path segments (Figma file keys are omitted), with the full URL in the tooltip.
 - Industry tags appear directly below Product Idea and remain visually secondary.
 - Featured projects appear before regular projects and display a Featured badge.
 - A project link shows its favicon, truncated URL, and a `Site`, `Figma`, or `Prototype` resource badge.
-- Clicking the visible URL copies the full URL; hover/focus exposes the full URL in a tooltip.
-- A clear `Open` action opens the resource in a new tab. When a password exists, `Open` copies it first and confirms that action with a toast.
-- Copy actions briefly change to `Copied ✓`.
-- Password rows do not render when the password is empty.
-- Existing passwords appear before the project link, are masked by default, and support Show/Hide and Copy.
+- Clicking the visible URL copies the full URL; hover/focus exposes the full URL in a tooltip. There is no separate Copy button on any card.
+- A clear `Open` action opens the resource in a new tab. For Figma/Prototype cards with a password, `Open` copies the password in the same click (before navigation) and shows a `Password copied` toast. Site cards never write to the clipboard on Open.
+- Password copy uses a toast only, so the row does not shift.
+- Empty passwords render no key control.
+- When a password exists, a single key icon (with an orange presence dot) sits in the link row as a manual copy fallback. Hover shows the password; click copies it. There is no separate password row.
 
 ## Owner experience
 

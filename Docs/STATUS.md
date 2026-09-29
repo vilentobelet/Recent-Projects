@@ -68,6 +68,7 @@ Last updated: 2026-09-29
 - Shared Pages artifact `outputs/pages/index.html` for local `npm run dev` and GitHub Actions.
 - GitHub Pages / port 4173 now render the same React `ProductBoard` as localhost:5173 (lucide, Tailwind, shadcn), with API calls to the live Sites origin. Push to update https://vilentobelet.github.io/Recent-Projects/.
 - Local Vinext (`localhost:5173`) still mirrors live products and owner profile on loopback GETs.
+- Seed catalog names: Brand Identity cards are `bloBrew - Brand Identity` and `Tom Yum - Brand Identity`; Web3 `bloBrew` is unchanged. Live D1 still uses the short titles until an Owner save.
 
 ## Verification
 
@@ -97,4 +98,4 @@ Last updated: 2026-09-29
 
 ## Next task
 
-No required implementation is pending. Add only the user's next explicitly requested change here while it is active, then clear or replace it after completion.
+Local Vinext-only (localhost:5173): every card uses URL click-to-copy + Open; password cards add a key. Do not publish Pages or Sites until Vitaliy confirms.

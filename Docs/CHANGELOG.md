@@ -1,5 +1,13 @@
 # Product Badge Board — Changelog
 
+## 2026-09-29 — Brand Identity card titles
+
+- In `data/projects.json`, renamed the Brand Identity cards to `bloBrew - Brand Identity` and `Tom Yum - Brand Identity`. The Web3 `bloBrew` card is unchanged.
+
+## 2026-09-29 — Password as link-row actions (local Vinext)
+
+- On localhost:5173, no card has a Copy button. Click the URL to copy the link. Figma/Prototype Open copies the password in the same click (`Password copied` toast). The key icon remains a manual fallback when a password exists. GitHub Pages is unchanged until this is confirmed.
+
 ## 2026-09-29 — Pages uses the Vinext React board
 
 - GitHub Pages and local 4173 now compile `site/components/product-board.tsx` instead of a separate CSS clone, so Cards, Compact, lucide icons, and buttons match localhost:5173. Off-Vinext hosts call the live Sites API.

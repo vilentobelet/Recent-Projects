@@ -1,7 +1,7 @@
 "use client";
 
 import { CSSProperties, FormEvent, KeyboardEvent, MouseEvent, useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
-import { Check, Clipboard, ExternalLink, Eye, EyeOff, Globe2, GripVertical, ImagePlus, KeyRound, Layers3, LayoutGrid, Link2, LoaderCircle, LockKeyhole, PackagePlus, Pencil, Plus, Rows3, Save, Sparkles, Trash2, UserRound, X } from "lucide-react";
+import { Check, ExternalLink, Globe2, GripVertical, ImagePlus, KeyRound, Layers3, LayoutGrid, Link2, LoaderCircle, LockKeyhole, PackagePlus, Pencil, Plus, Rows3, Save, Sparkles, Trash2, UserRound, X } from "lucide-react";
 import { toast } from "sonner";
 
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "@/components/ui/alert-dialog";
@@ -265,10 +265,8 @@ function ProductForm({ initial, saving, token, onSave, onCancel, submitLabel }: 
 }
 
 function ProductCard({ product, viewMode, isAdmin, token, onChanged, draggingId, overId, onDragStart, onDragOver, onDrop, onDragEnd, onPointerMove, onPointerDrop }: { product: Product; viewMode: ViewMode; isAdmin: boolean; token: string; onChanged: () => Promise<void>; draggingId: number | null; overId: number | null; onDragStart: (id: number) => void; onDragOver: (id: number) => void; onDrop: (id: number) => void; onDragEnd: () => void; onPointerMove: (x: number, y: number) => void; onPointerDrop: () => void }) {
-  const [visible, setVisible] = useState(false);
   const [editing, setEditing] = useState(false);
   const [saving, setSaving] = useState(false);
-  const [copied, setCopied] = useState<"link" | "password" | null>(null);
   const [faviconFailed, setFaviconFailed] = useState(false);
   const [rowSpan, setRowSpan] = useState(1);
   const cardRef = useRef<HTMLElement>(null);
@@ -287,32 +285,24 @@ function ProductCard({ product, viewMode, isAdmin, token, onChanged, draggingId,
     if (!card) return;
     const update = () => setRowSpan(viewMode === "cards" ? Math.max(1, Math.ceil((card.getBoundingClientRect().height + 14) / 4)) : 1);
     update();
-    const observer = new ResizeObserver(update); observer.observe(card);
+    const observer = new ResizeObserver(update);     observer.observe(card);
     return () => observer.disconnect();
-  }, [editing, visible, product, viewMode]);
+  }, [editing, product, viewMode]);
 
   async function copyField(value: string, kind: "link" | "password") {
     try {
       await navigator.clipboard.writeText(value);
-      setCopied(kind);
       toast.success(kind === "link" ? "Link copied" : "Password copied");
-      window.setTimeout(() => setCopied((current) => current === kind ? null : current), 1400);
     } catch { toast.error(`Could not copy ${kind}`); }
   }
 
   function openProduct(event: MouseEvent<HTMLAnchorElement>) {
-    if (!product.password) return;
+    if (!product.password || linkKind === "Site") return;
     event.preventDefault();
-    const nextWindow = window.open("", "_blank");
-    if (nextWindow) nextWindow.opener = null;
     void navigator.clipboard.writeText(product.password).then(() => {
-      setCopied("password");
-      toast.success("Password copied — paste it on the sign-in page");
-      window.setTimeout(() => setCopied((current) => current === "password" ? null : current), 1400);
-    }).catch(() => toast.error("Could not copy password")).finally(() => {
-      if (nextWindow) nextWindow.location.replace(fullLink);
-      else window.open(fullLink, "_blank", "noopener,noreferrer");
-    });
+      toast.success("Password copied");
+    }).catch(() => toast.error("Could not copy password"));
+    window.open(fullLink, "_blank", "noopener,noreferrer");
   }
 
   async function update(draft: ProductDraft) {
@@ -345,13 +335,30 @@ function ProductCard({ product, viewMode, isAdmin, token, onChanged, draggingId,
   const favicon = <span className="grid size-8 shrink-0 place-items-center overflow-hidden rounded-lg border border-white/[0.07] bg-white/5 text-zinc-400">{faviconUrl && !faviconFailed ? <img src={faviconUrl} alt="" className="size-4 rounded-sm" onError={() => setFaviconFailed(true)} /> : <Link2 className="size-4" />}</span>;
   const linkText = <TooltipProvider delayDuration={180}><Tooltip><TooltipTrigger asChild><button type="button" onClick={() => void copyField(product.link, "link")} className="min-w-0 flex-1 cursor-copy truncate text-left text-xs font-medium text-zinc-300 transition hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange-500/60 sm:text-sm">{displayLink}</button></TooltipTrigger><TooltipContent side="top" sideOffset={8} className="max-w-sm break-all bg-zinc-100 text-zinc-900">{fullLink}<span className="mt-1 block text-[0.68rem] text-zinc-500">Click to copy</span></TooltipContent></Tooltip></TooltipProvider>;
   const kindBadge = <span className={`shrink-0 rounded-md border px-1.5 py-0.5 text-[0.6rem] font-semibold uppercase tracking-[0.07em] ${linkKindClass}`}>{linkKind}</span>;
-  const openButton = <TooltipProvider delayDuration={180}><Tooltip><TooltipTrigger asChild><Button asChild size="sm" className="h-9 shrink-0 rounded-xl bg-orange-500 px-3 text-zinc-950 hover:bg-orange-400"><a href={fullLink} target="_blank" rel="noreferrer" onClick={openProduct}><ExternalLink /> Open</a></Button></TooltipTrigger><TooltipContent side="top" sideOffset={8} className="max-w-sm break-all bg-zinc-100 text-zinc-900">{product.password ? "Copies the password, then opens " : "Open "}{fullLink}</TooltipContent></Tooltip></TooltipProvider>;
-  const passwordControls = product.password && <div className="flex w-full min-w-0 items-center gap-1.5 rounded-xl border border-white/[0.07] bg-black/20 px-2 py-1.5">
-    <KeyRound className="size-3.5 shrink-0 text-zinc-500" />
-    <span className="min-w-16 truncate font-mono text-xs tracking-wider text-zinc-300">{visible ? product.password : "••••••••"}</span>
-    <Button variant="ghost" size="icon-sm" onClick={() => setVisible(!visible)} aria-label={visible ? "Hide password" : "Show password"} className="size-7 rounded-lg text-zinc-500 hover:bg-white/5 hover:text-white">{visible ? <EyeOff /> : <Eye />}</Button>
-    <Button variant="ghost" size="sm" onClick={() => void copyField(product.password, "password")} className="h-7 rounded-lg px-2 text-xs text-zinc-300 hover:bg-[var(--card-soft)] hover:text-[var(--card-accent)]">{copied === "password" ? <><Check /> Copied ✓</> : <><Clipboard /> Copy</>}</Button>
-  </div>;
+  const openButton = <TooltipProvider delayDuration={180}><Tooltip><TooltipTrigger asChild><Button asChild size="sm" className="h-9 shrink-0 rounded-xl bg-orange-500 px-3 text-zinc-950 hover:bg-orange-400"><a href={fullLink} target="_blank" rel="noreferrer" onClick={openProduct}><ExternalLink /> Open</a></Button></TooltipTrigger><TooltipContent side="top" sideOffset={8} className="max-w-sm break-all bg-zinc-100 text-zinc-900">{product.password && linkKind !== "Site" ? "Copies the password, then opens " : "Open "}{fullLink}</TooltipContent></Tooltip></TooltipProvider>;
+  const passwordActions = product.password ? (
+    <TooltipProvider delayDuration={180}>
+      <Tooltip>
+        <TooltipTrigger asChild>
+          <Button
+            type="button"
+            variant="ghost"
+            size="icon-sm"
+            aria-label="Copy password"
+            onClick={() => void copyField(product.password, "password")}
+            className="relative size-8 shrink-0 rounded-lg text-zinc-400 hover:bg-[var(--card-soft)] hover:text-[var(--card-accent)]"
+          >
+            <KeyRound className="size-4" />
+            <span className="absolute right-1.5 top-1.5 size-1.5 rounded-full bg-orange-400" aria-hidden="true" />
+          </Button>
+        </TooltipTrigger>
+        <TooltipContent side="top" sideOffset={8} className="max-w-xs break-all bg-zinc-100 font-mono text-xs tracking-wider text-zinc-900">
+          {product.password}
+          <span className="mt-1 block font-sans text-[0.68rem] font-normal tracking-normal text-zinc-500">Click to copy</span>
+        </TooltipContent>
+      </Tooltip>
+    </TooltipProvider>
+  ) : null;
 
   return (
     <article
@@ -381,9 +388,9 @@ function ProductCard({ product, viewMode, isAdmin, token, onChanged, draggingId,
                 </div>
               </div>
               <div className="flex min-w-0 w-full flex-col gap-2">
-                {passwordControls}
-                <div className="flex min-w-0 w-full items-center gap-2">
-                  <div className="flex min-w-0 flex-1 items-center gap-1.5 overflow-hidden rounded-xl border border-white/[0.07] bg-black/20 px-2 py-1.5">{favicon}{linkText}{kindBadge}<Button variant="ghost" size="sm" onClick={() => void copyField(product.link, "link")} className="hidden h-7 shrink-0 rounded-lg px-2 text-xs text-zinc-300 hover:bg-[var(--card-soft)] hover:text-[var(--card-accent)] sm:inline-flex">{copied === "link" ? <><Check /> Copied ✓</> : <><Clipboard /> Copy</>}</Button></div>
+                <div className="flex min-w-0 w-full items-center gap-1.5">
+                  <div className="flex min-w-0 flex-1 items-center gap-1.5 overflow-hidden rounded-xl border border-white/[0.07] bg-black/20 px-2 py-1.5">{favicon}{linkText}{kindBadge}</div>
+                  {passwordActions}
                   {openButton}
                 </div>
                 {adminTools}
@@ -398,20 +405,13 @@ function ProductCard({ product, viewMode, isAdmin, token, onChanged, draggingId,
               {adminTools}
             </div>
             <div className="mb-2.5"><p className="mb-1 text-xs font-semibold uppercase tracking-[0.12em] text-zinc-500">Product idea</p><p className="text-sm leading-5 text-zinc-300 [overflow-wrap:anywhere] md:[overflow-wrap:normal]">{product.idea}</p>{tagBadges}</div>
-            <div className="grid gap-2.5">
-              {product.password && <div className="flex min-w-0 items-center gap-2.5 rounded-xl border border-white/[0.07] bg-black/20 p-2.5">
-                <span className="grid size-8 shrink-0 place-items-center rounded-lg bg-white/5 text-zinc-400"><KeyRound className="size-4" /></span>
-                <div className="min-w-0 flex-1"><p className="text-[0.68rem] font-semibold uppercase tracking-[0.12em] text-zinc-600">Password</p><p className="truncate font-mono text-sm font-medium tracking-wider text-zinc-300">{visible ? product.password : "••••••••"}</p></div>
-                <Button variant="ghost" size="icon-sm" onClick={() => setVisible(!visible)} aria-label={visible ? "Hide password" : "Show password"} className="rounded-lg text-zinc-400 hover:bg-white/5 hover:text-white">{visible ? <EyeOff /> : <Eye />}</Button><Button variant="ghost" size="sm" onClick={() => void copyField(product.password, "password")} className="rounded-xl text-zinc-300 hover:bg-[var(--card-soft)] hover:text-[var(--card-accent)]">{copied === "password" ? <><Check /> Copied ✓</> : <><Clipboard /> Copy</>}</Button>
-              </div>}
-              <div className="flex min-w-0 items-center gap-2.5 rounded-xl border border-white/[0.07] bg-black/20 p-2.5">
+            <div className="flex min-w-0 items-center gap-1.5 rounded-xl border border-white/[0.07] bg-black/20 p-2.5">
                 {favicon}
                 {linkText}
                 {kindBadge}
-                <Button variant="ghost" size="sm" onClick={() => void copyField(product.link, "link")} className="hidden shrink-0 rounded-xl text-zinc-300 hover:bg-[var(--card-soft)] hover:text-[var(--card-accent)] sm:inline-flex">{copied === "link" ? <><Check /> Copied ✓</> : <><Clipboard /> Copy</>}</Button>
+                {passwordActions}
                 {openButton}
               </div>
-            </div>
           </>
         )}
       </div>

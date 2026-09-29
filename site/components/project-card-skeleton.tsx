@@ -51,7 +51,6 @@ export function ProjectCardSkeleton({ viewMode = "cards" }: { viewMode?: ViewMod
               <div className="flex min-w-0 flex-1 items-center gap-2.5 rounded-xl border border-white/[0.07] bg-black/20 p-2">
                 <Bone className="size-8 shrink-0 rounded-lg" />
                 <Bone className="h-3 flex-1" />
-                <Bone className="hidden h-7 w-14 shrink-0 rounded-lg sm:block" />
               </div>
               <Bone className="h-9 w-[4.5rem] shrink-0 rounded-xl bg-orange-500/25" />
             </div>
@@ -78,7 +77,6 @@ export function ProjectCardSkeleton({ viewMode = "cards" }: { viewMode?: ViewMod
             <Bone className="size-8 shrink-0 rounded-lg" />
             <Bone className="h-3 flex-1" />
             <Bone className="h-4 w-10 shrink-0 rounded" />
-            <Bone className="hidden h-8 w-14 shrink-0 rounded-xl sm:block" />
             <Bone className="h-9 w-[4.5rem] shrink-0 rounded-xl bg-orange-500/25" />
           </div>
         </div>
