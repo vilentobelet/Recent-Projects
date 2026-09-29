@@ -10,6 +10,7 @@ import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, D
 import { Switch } from "@/components/ui/switch";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { ProjectCardSkeleton } from "@/components/project-card-skeleton";
+import { boardFetch } from "@/lib/board-api";
 
 const COLOR_THEMES = {
   orange: { name: "Orange", accent: "#f97316", soft: "rgba(249,115,22,.12)", border: "rgba(249,115,22,.28)" },
@@ -133,7 +134,7 @@ function LogoUploadField({ value, token, onChange }: { value: string; token: str
     setUploading(true);
     try {
       const form = new FormData(); form.set("logo", file);
-      const response = await fetch("/api/logos", { method: "POST", headers: { "x-admin-token": token }, body: form });
+      const response = await boardFetch("/api/logos", { method: "POST", headers: { "x-admin-token": token }, body: form });
       const payload = await response.json();
       if (!response.ok) throw new Error(payload.error || "Upload failed");
       onChange(payload.logoUrl); toast.success("Logo uploaded");
@@ -159,7 +160,7 @@ function AvatarUploadField({ value, token, onChange }: { value: string; token: s
     setUploading(true);
     try {
       const form = new FormData(); form.set("logo", file);
-      const response = await fetch("/api/logos", { method: "POST", headers: { "x-admin-token": token }, body: form });
+      const response = await boardFetch("/api/logos", { method: "POST", headers: { "x-admin-token": token }, body: form });
       const payload = await response.json();
       if (!response.ok) throw new Error(payload.error || "Upload failed");
       onChange(payload.logoUrl); toast.success("Avatar uploaded");
@@ -187,7 +188,7 @@ function OwnerProfile({ profile, isAdmin, token, onSaved }: { profile: BoardProf
     setSaving(true);
     try {
       const linkedinUrl = normaliseLink(draft.linkedinUrl);
-      const response = await fetch("/api/profile", { method: "PUT", headers: { "Content-Type": "application/json", "x-admin-token": token }, body: JSON.stringify({ ...draft, linkedinUrl }) });
+      const response = await boardFetch("/api/profile", { method: "PUT", headers: { "Content-Type": "application/json", "x-admin-token": token }, body: JSON.stringify({ ...draft, linkedinUrl }) });
       const payload = await response.json();
       if (!response.ok) throw new Error(payload.error || "Could not save profile");
       onSaved(payload.profile); setOpen(false); toast.success("Owner profile updated");
@@ -317,7 +318,7 @@ function ProductCard({ product, viewMode, isAdmin, token, onChanged, draggingId,
   async function update(draft: ProductDraft) {
     setSaving(true);
     try {
-      const response = await fetch(`/api/products/${product.id}`, { method: "PATCH", headers: { "Content-Type": "application/json", "x-admin-token": token }, body: JSON.stringify(draft) });
+      const response = await boardFetch(`/api/products/${product.id}`, { method: "PATCH", headers: { "Content-Type": "application/json", "x-admin-token": token }, body: JSON.stringify(draft) });
       if (!response.ok) throw new Error((await response.json()).error || "Update failed");
       await onChanged(); setEditing(false); toast.success("Product updated");
     } catch (error) { toast.error(error instanceof Error ? error.message : "Update failed"); }
@@ -327,7 +328,7 @@ function ProductCard({ product, viewMode, isAdmin, token, onChanged, draggingId,
   async function remove() {
     setSaving(true);
     try {
-      const response = await fetch(`/api/products/${product.id}`, { method: "DELETE", headers: { "x-admin-token": token } });
+      const response = await boardFetch(`/api/products/${product.id}`, { method: "DELETE", headers: { "x-admin-token": token } });
       if (!response.ok) throw new Error((await response.json()).error || "Delete failed");
       await onChanged(); toast.success("Product deleted");
     } catch (error) { toast.error(error instanceof Error ? error.message : "Delete failed"); }
@@ -435,12 +436,12 @@ export default function ProductBoard() {
   const isAdmin = Boolean(token);
   useEffect(() => setToken(readAdminToken()), []);
   const loadProducts = useCallback(async () => {
-    try { const response = await fetch("/api/products", { cache: "no-store" }); const payload = await response.json(); if (!response.ok) throw new Error(payload.error || "Could not load products"); setProducts(payload.products); setError(""); }
+    try { const response = await boardFetch("/api/products", { cache: "no-store" }); const payload = await response.json(); if (!response.ok) throw new Error(payload.error || "Could not load products"); setProducts(payload.products); setError(""); }
     catch (loadError) { setError(loadError instanceof Error ? loadError.message : "Could not load products"); }
     finally { setLoading(false); }
   }, []);
   const loadProfile = useCallback(async () => {
-    try { const response = await fetch("/api/profile", { cache: "no-store" }); const payload = await response.json(); if (response.ok) setProfile(payload.profile ?? EMPTY_PROFILE); }
+    try { const response = await boardFetch("/api/profile", { cache: "no-store" }); const payload = await response.json(); if (response.ok) setProfile(payload.profile ?? EMPTY_PROFILE); }
     catch { /* The board remains usable if profile data is temporarily unavailable. */ }
   }, []);
   useEffect(() => { void loadProducts(); }, [loadProducts]);
@@ -468,7 +469,7 @@ export default function ProductBoard() {
   }, [activeCategory, loading, preferencesReady, viewMode]);
   useEffect(() => {
     if (!token) return;
-    void fetch("/api/admin/check", { headers: { "x-admin-token": token } }).then((response) => { if (response.ok) return; sessionStorage.removeItem("product-badge-admin"); setToken(""); toast.error("Admin link is invalid"); });
+    void boardFetch("/api/admin/check", { headers: { "x-admin-token": token } }).then((response) => { if (response.ok) return; sessionStorage.removeItem("product-badge-admin"); setToken(""); toast.error("Admin link is invalid"); });
   }, [token]);
 
   useEffect(() => {
@@ -482,12 +483,12 @@ export default function ProductBoard() {
     register({
       name: "list_product_badges", title: "List product badges", description: "List the visible product access cards with their industries, ideas, links, and passwords.",
       inputSchema: { type: "object", properties: {}, additionalProperties: false }, annotations: { readOnlyHint: true, untrustedContentHint: true },
-      async execute() { const response = await fetch("/api/products", { cache: "no-store" }); if (!response.ok) throw new Error("Could not load products"); return response.json(); },
+      async execute() { const response = await boardFetch("/api/products", { cache: "no-store" }); if (!response.ok) throw new Error("Could not load products"); return response.json(); },
     });
     register({
       name: "get_owner_profile", title: "Get owner profile", description: "Read the public owner avatar and LinkedIn link shown beside Recent Projects.",
       inputSchema: { type: "object", properties: {}, additionalProperties: false }, annotations: { readOnlyHint: true, untrustedContentHint: true },
-      async execute() { const response = await fetch("/api/profile", { cache: "no-store" }); if (!response.ok) throw new Error("Could not load owner profile"); return response.json(); },
+      async execute() { const response = await boardFetch("/api/profile", { cache: "no-store" }); if (!response.ok) throw new Error("Could not load owner profile"); return response.json(); },
     });
 
     if (token) {
@@ -495,27 +496,27 @@ export default function ProductBoard() {
       register({
         name: "add_product_badge", title: "Add product badge", description: "Add a product card to the shared board. Owner access is required.",
         inputSchema: { type: "object", properties: productFields, required: ["industry", "name", "idea", "link"], additionalProperties: false }, annotations: { readOnlyHint: false, untrustedContentHint: false },
-        async execute(input) { const draft = { industry: String(input.industry ?? ""), name: String(input.name ?? ""), idea: String(input.idea ?? ""), link: normaliseLink(String(input.link ?? "")), password: String(input.password ?? ""), color: String(input.color ?? "orange"), logoUrl: String(input.logoUrl ?? ""), featured: Boolean(input.featured) }; const response = await fetch("/api/products", { method: "POST", headers: { "Content-Type": "application/json", "x-admin-token": token }, body: JSON.stringify(draft) }); if (!response.ok) throw new Error((await response.json()).error || "Create failed"); await loadProducts(); return { created: true, name: draft.name }; },
+        async execute(input) { const draft = { industry: String(input.industry ?? ""), name: String(input.name ?? ""), idea: String(input.idea ?? ""), link: normaliseLink(String(input.link ?? "")), password: String(input.password ?? ""), color: String(input.color ?? "orange"), logoUrl: String(input.logoUrl ?? ""), featured: Boolean(input.featured) }; const response = await boardFetch("/api/products", { method: "POST", headers: { "Content-Type": "application/json", "x-admin-token": token }, body: JSON.stringify(draft) }); if (!response.ok) throw new Error((await response.json()).error || "Create failed"); await loadProducts(); return { created: true, name: draft.name }; },
       });
       register({
         name: "update_product_badge", title: "Update product badge", description: "Update one shared product card by its numeric ID. Owner access is required.",
         inputSchema: { type: "object", properties: { id: { type: "integer" }, ...productFields }, required: ["id", "industry", "name", "idea", "link"], additionalProperties: false }, annotations: { readOnlyHint: false, untrustedContentHint: false },
-        async execute(input) { const id = Number(input.id); const draft = { industry: String(input.industry ?? ""), name: String(input.name ?? ""), idea: String(input.idea ?? ""), link: normaliseLink(String(input.link ?? "")), password: String(input.password ?? ""), color: String(input.color ?? "orange"), logoUrl: String(input.logoUrl ?? ""), featured: Boolean(input.featured) }; const response = await fetch(`/api/products/${id}`, { method: "PATCH", headers: { "Content-Type": "application/json", "x-admin-token": token }, body: JSON.stringify(draft) }); if (!response.ok) throw new Error((await response.json()).error || "Update failed"); await loadProducts(); return { updated: true, id }; },
+        async execute(input) { const id = Number(input.id); const draft = { industry: String(input.industry ?? ""), name: String(input.name ?? ""), idea: String(input.idea ?? ""), link: normaliseLink(String(input.link ?? "")), password: String(input.password ?? ""), color: String(input.color ?? "orange"), logoUrl: String(input.logoUrl ?? ""), featured: Boolean(input.featured) }; const response = await boardFetch(`/api/products/${id}`, { method: "PATCH", headers: { "Content-Type": "application/json", "x-admin-token": token }, body: JSON.stringify(draft) }); if (!response.ok) throw new Error((await response.json()).error || "Update failed"); await loadProducts(); return { updated: true, id }; },
       });
       register({
         name: "delete_product_badge", title: "Delete product badge", description: "Permanently delete one product card by its numeric ID. Owner access is required.",
         inputSchema: { type: "object", properties: { id: { type: "integer" } }, required: ["id"], additionalProperties: false }, annotations: { readOnlyHint: false, untrustedContentHint: false },
-        async execute(input) { const id = Number(input.id); const response = await fetch(`/api/products/${id}`, { method: "DELETE", headers: { "x-admin-token": token } }); if (!response.ok) throw new Error((await response.json()).error || "Delete failed"); await loadProducts(); return { deleted: true, id }; },
+        async execute(input) { const id = Number(input.id); const response = await boardFetch(`/api/products/${id}`, { method: "DELETE", headers: { "x-admin-token": token } }); if (!response.ok) throw new Error((await response.json()).error || "Delete failed"); await loadProducts(); return { deleted: true, id }; },
       });
       register({
         name: "reorder_product_badges", title: "Reorder product badges", description: "Save the complete display order of product cards using their numeric IDs. Owner access is required.",
         inputSchema: { type: "object", properties: { productIds: { type: "array", items: { type: "integer" }, minItems: 1 } }, required: ["productIds"], additionalProperties: false }, annotations: { readOnlyHint: false, untrustedContentHint: false },
-        async execute(input) { const productIds = Array.isArray(input.productIds) ? input.productIds.map(Number) : []; const response = await fetch("/api/products/reorder", { method: "POST", headers: { "Content-Type": "application/json", "x-admin-token": token }, body: JSON.stringify({ productIds }) }); if (!response.ok) throw new Error((await response.json()).error || "Reorder failed"); await loadProducts(); return { reordered: true, productIds }; },
+        async execute(input) { const productIds = Array.isArray(input.productIds) ? input.productIds.map(Number) : []; const response = await boardFetch("/api/products/reorder", { method: "POST", headers: { "Content-Type": "application/json", "x-admin-token": token }, body: JSON.stringify({ productIds }) }); if (!response.ok) throw new Error((await response.json()).error || "Reorder failed"); await loadProducts(); return { reordered: true, productIds }; },
       });
       register({
         name: "update_owner_profile", title: "Update owner profile", description: "Update the public LinkedIn link and avatar URL shown in the board header. Owner access is required.",
         inputSchema: { type: "object", properties: { linkedinUrl: { type: "string" }, avatarUrl: { type: "string" } }, required: ["linkedinUrl", "avatarUrl"], additionalProperties: false }, annotations: { readOnlyHint: false, untrustedContentHint: false },
-        async execute(input) { const response = await fetch("/api/profile", { method: "PUT", headers: { "Content-Type": "application/json", "x-admin-token": token }, body: JSON.stringify({ linkedinUrl: normaliseLink(String(input.linkedinUrl ?? "")), avatarUrl: String(input.avatarUrl ?? "") }) }); if (!response.ok) throw new Error((await response.json()).error || "Could not update owner profile"); await loadProfile(); return response.json(); },
+        async execute(input) { const response = await boardFetch("/api/profile", { method: "PUT", headers: { "Content-Type": "application/json", "x-admin-token": token }, body: JSON.stringify({ linkedinUrl: normaliseLink(String(input.linkedinUrl ?? "")), avatarUrl: String(input.avatarUrl ?? "") }) }); if (!response.ok) throw new Error((await response.json()).error || "Could not update owner profile"); await loadProfile(); return response.json(); },
       });
     }
     return () => lifecycle.abort();
@@ -523,7 +524,7 @@ export default function ProductBoard() {
 
   async function create(draft: ProductDraft) {
     setSaving(true);
-    try { const response = await fetch("/api/products", { method: "POST", headers: { "Content-Type": "application/json", "x-admin-token": token }, body: JSON.stringify(draft) }); if (!response.ok) throw new Error((await response.json()).error || "Create failed"); await loadProducts(); setAdding(false); toast.success("Product added"); }
+    try { const response = await boardFetch("/api/products", { method: "POST", headers: { "Content-Type": "application/json", "x-admin-token": token }, body: JSON.stringify(draft) }); if (!response.ok) throw new Error((await response.json()).error || "Create failed"); await loadProducts(); setAdding(false); toast.success("Product added"); }
     catch (createError) { toast.error(createError instanceof Error ? createError.message : "Create failed"); }
     finally { setSaving(false); }
   }
@@ -532,7 +533,7 @@ export default function ProductBoard() {
     const ordered = [...next].sort((a, b) => Number(Boolean(b.featured)) - Number(Boolean(a.featured)));
     setProducts(ordered);
     try {
-      const response = await fetch("/api/products/reorder", { method: "POST", headers: { "Content-Type": "application/json", "x-admin-token": token }, body: JSON.stringify({ productIds: ordered.map((product) => product.id) }) });
+      const response = await boardFetch("/api/products/reorder", { method: "POST", headers: { "Content-Type": "application/json", "x-admin-token": token }, body: JSON.stringify({ productIds: ordered.map((product) => product.id) }) });
       if (!response.ok) throw new Error((await response.json()).error || "Could not save order");
       toast.success("Order saved");
     } catch (reorderError) {

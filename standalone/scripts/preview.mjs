@@ -7,12 +7,13 @@ import { createReadStream, existsSync, statSync } from "node:fs";
 
 const standaloneRoot = join(dirname(fileURLToPath(import.meta.url)), "..");
 const repoRoot = join(standaloneRoot, "..");
+const siteRoot = join(repoRoot, "site");
 const pagesDir = join(repoRoot, "outputs/pages");
 const port = Number(process.env.PORT || 4173);
 
 function runBuild() {
   return new Promise((resolve, reject) => {
-    const child = spawn(process.execPath, ["scripts/build.mjs"], {
+    const child = spawn("node", ["scripts/build.mjs"], {
       cwd: standaloneRoot,
       stdio: "inherit",
     });
@@ -53,10 +54,12 @@ server.listen(port, "127.0.0.1", () => {
 });
 
 const watchRoots = [
-  join(standaloneRoot, "src"),
+  join(siteRoot, "pages-spa"),
+  join(siteRoot, "components"),
+  join(siteRoot, "app/globals.css"),
+  join(siteRoot, "lib"),
+  join(siteRoot, "public/favicon.svg"),
   join(repoRoot, "data/projects.json"),
-  join(repoRoot, "site/public/favicon.svg"),
-  join(repoRoot, "site/public/apple-touch-icon.png"),
 ];
 let rebuilding = false;
 let queued = false;

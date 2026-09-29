@@ -2,8 +2,8 @@
 description: Keep the live board, standalone HTML, and Storybook kit visually aligned. Apply when editing cards, header, filters, or loading UI.
 globs:
   - site/components/**/*.tsx
+  - site/pages-spa/**
   - project-ui/src/**/*.{ts,tsx,css}
-  - standalone/src/**
 alwaysApply: false
 ---
 
@@ -13,7 +13,7 @@ Production board: `site/components/product-board.tsx` plus `site/components/proj
 
 Presentational kit + Storybook: `project-ui/src/` (`ProjectCard`, skeleton, header, filters, link/password rows). Stories in `project-ui/src/stories/`. Card samples come from `data/projects.json`.
 
-Static/Pages board: `standalone/src/` (`board.ts`, `styles.css`, `index.html`). Build with `npm --prefix standalone run build`.
+Static/Pages board: same `product-board.tsx`, entered from `site/pages-spa/`. Build with `npm --prefix standalone run build`.
 
 User-facing behavior must stay aligned across those three surfaces. Preserve Inter, lucide-style icons, Featured above the title, Copy/Open treatment, 1180px board width, and card-shaped skeletons while loading.
 

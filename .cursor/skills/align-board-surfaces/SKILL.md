@@ -11,7 +11,7 @@ Shared visitor UI lives in three places. Update all that apply:
 | --- | --- | --- |
 | Production | `site/components/product-board.tsx`, `site/components/project-card-skeleton.tsx` | `pnpm run build` in `site/` |
 | Storybook kit | `project-ui/src/components/`, stories in `project-ui/src/stories/` | `npm --prefix project-ui run build-storybook` or Storybook on port 6006 |
-| Pages / Notion HTML | `standalone/src/board.ts`, `styles.css`, `index.html` | `npm run build` (writes `outputs/pages/index.html`, uploaded by GitHub Actions) |
+| Pages / Notion HTML | Same `product-board.tsx` via `site/pages-spa/`; build with `npm --prefix standalone run build` | Writes `outputs/pages/index.html` |
 
 `project-ui` is presentational only. Do not assume `site/` imports it.
 

@@ -53,16 +53,14 @@ npm run build    # write outputs/pages and the Notion HTML copy
 
 ## Production Sites app
 
-`localhost:5173` is the Vinext app in `site/`. It uses a **local** D1 database, not the Pages artifact. Use it only when working on the hosted API or Owner-mode server code:
+`localhost:5173` is the Vinext app in `site/`. On your machine it now reads the **same live products and owner profile** as GitHub Pages. Use it for Owner-mode server work:
 
 ```sh
 cd site
 pnpm run dev
-pnpm run build
-pnpm run start
 ```
 
-Or from the repo root: `npm run site:dev`.
+Or from the repo root: `npm run site:dev`. Restart the dev server after pulling, then hard-refresh the tab.
 
 ## Storybook
 

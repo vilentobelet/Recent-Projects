@@ -71,8 +71,8 @@ Each project supports:
 
 - Frontend/full-stack framework: React 19, Next-compatible Vinext, TypeScript, Tailwind CSS.
 - Hosting: OpenAI Sites / Cloudflare Worker runtime.
-- Static GitHub Pages mirror and local `npm run dev` both use `outputs/pages/index.html`, built from `standalone/src/` by `npm run build` / `.github/workflows/deploy-pages.yml`, and backed by the same hosted API.
-- Repository layout: product docs in `Docs/`, card catalog in `data/projects.json`, Vinext app in `site/`, standalone TypeScript board in `standalone/`, React Project components and Storybook in `project-ui/`, Cursor skills and rules in `.cursor/`.
+- Static GitHub Pages mirror and local `npm run dev` both use `outputs/pages/index.html`, a Vite build of the same `site/components/product-board.tsx` UI as localhost:5173, talking to the hosted API.
+- Repository layout: product docs in `Docs/`, card catalog in `data/projects.json`, Vinext app in `site/`, Pages SPA entry in `site/pages-spa/` (built by `standalone/scripts/build.mjs`), React Project components and Storybook in `project-ui/`, Cursor skills and rules in `.cursor/`.
 - Cards are defined in `data/projects.json`, not in component source. An empty database is seeded from that file. Owner edits persist in D1.
 - Database: D1 with Drizzle-managed migrations.
 - Image storage: R2 binding `BUCKET`.

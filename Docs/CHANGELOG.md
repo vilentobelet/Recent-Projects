@@ -1,5 +1,17 @@
 # Product Badge Board — Changelog
 
+## 2026-09-29 — Pages uses the Vinext React board
+
+- GitHub Pages and local 4173 now compile `site/components/product-board.tsx` instead of a separate CSS clone, so Cards, Compact, lucide icons, and buttons match localhost:5173. Off-Vinext hosts call the live Sites API.
+
+## 2026-09-29 — Standalone CSS matches Vinext card chrome
+
+- Replaced layered standalone CSS with one Vinext-aligned sheet: 32px ghost Copy, 36px Open, 16/18px card padding, visible footer, 1180px wrap, two-column Cards from 768px. GitHub Pages will pick this up after the rebuilt `outputs/pages/index.html` is pushed.
+
+## 2026-09-27 — Local Vinext mirrors live board data
+
+- `localhost:5173` now loads products and the owner profile from the live Sites API (same source as GitHub Pages), and replaces leftover local fixture cards if the live API is unreachable.
+
 ## 2026-09-27 — Same Pages artifact locally and on GitHub
 
 - Local `npm run dev` builds and serves `outputs/pages/index.html`, the same file GitHub Actions uploads to Pages. `localhost:5173` remains the Vinext Sites app with a separate local database.

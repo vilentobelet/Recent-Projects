@@ -1,6 +1,7 @@
 import { getD1 } from "@/db";
 import { requireAdmin } from "@/lib/admin";
 import { corsHeaders, json } from "@/lib/api";
+import { isLoopbackRequest, mirrorLiveBoard } from "@/lib/live-board";
 
 type Profile = { linkedinUrl: string; avatarUrl: string };
 
@@ -25,8 +26,14 @@ function validateProfile(payload: unknown): Profile {
 
 export function OPTIONS() { return new Response(null, { status: 204, headers: corsHeaders }); }
 
-export async function GET() {
+export async function GET(request: Request) {
   try {
+    if (isLoopbackRequest(request)) {
+      try {
+        const live = await mirrorLiveBoard("/api/profile");
+        if (live && typeof live === "object" && "profile" in live) return json(live);
+      } catch { /* Fall through to the local database. */ }
+    }
     const profile = await getD1().prepare("SELECT linkedin_url AS linkedinUrl, avatar_url AS avatarUrl FROM board_profile WHERE id = 1").first<Profile>();
     return json({ profile: profile ?? { linkedinUrl: "", avatarUrl: "" } });
   } catch (error) {

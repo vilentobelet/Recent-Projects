@@ -23,7 +23,7 @@
 - Cursor skills: `.cursor/skills/` (`new-changes`, `align-board-surfaces`)
 - Cursor rules: `.cursor/rules/` (always-on board rules plus New Changes, board UI, and API)
 - Production source: `site/`
-- Standalone TypeScript source: `standalone/src/`
+- Pages SPA entry: `site/pages-spa/` (same `product-board.tsx` as Vinext)
 - Project React components + Storybook: `project-ui/`
 - Notion-downloadable HTML: `outputs/notion-product-badge.html` (same bytes as `outputs/pages/index.html`)
 - GitHub Pages + local preview artifact: `outputs/pages/` (built from `standalone/`)
@@ -34,7 +34,7 @@
 
 - Keep changes scoped to the user's current request.
 - Preserve public viewing and owner-only editing.
-- Keep the React site, standalone TypeScript board, and `project-ui` Storybook kit aligned when changing user-facing features.
+- Keep the Vinext site, GitHub Pages SPA (same `product-board.tsx`), and `project-ui` Storybook kit aligned when changing user-facing features.
 - Use English for all UI copy.
 - Preserve the dark gray/black/orange visual system and responsive behavior.
 - Desktop Cards view uses two columns; mobile uses one column.
@@ -48,7 +48,7 @@
 ## Validation
 
 - For production UI or API changes, run `pnpm run build` in `site/`.
-- For downloadable HTML or GitHub Pages changes, edit `standalone/src/` and run `npm --prefix standalone run build`.
+- For downloadable HTML or GitHub Pages changes, edit the shared board in `site/components/` and run `npm --prefix standalone run build`.
 - For `project-ui` component changes, add or update stories and run `npm --prefix project-ui run build-storybook` when practical.
 - Update `Docs/STATUS.md` after material work and add a concise entry to `Docs/CHANGELOG.md` for shipped behavior.
 - Publish Site changes unless the user explicitly requests local-only work.

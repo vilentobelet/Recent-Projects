@@ -1,0 +1,7 @@
+@import "../app/globals.css";
+
+@source "../components/product-board.tsx";
+@source "../components/project-card-skeleton.tsx";
+@source "../components/ui/**/*.tsx";
+@source "../lib/**/*.ts";
+@source "./main.tsx";

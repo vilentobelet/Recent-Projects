@@ -1,12 +1,13 @@
 # Product Badge Board — Current Status
 
-Last updated: 2026-09-27
+Last updated: 2026-09-29
 
 ## GitHub Pages
 
 - Workflow: `.github/workflows/deploy-pages.yml`
-- Source: `standalone/src/` (TypeScript + CSS). Local `npm run build` and CI both run `npm --prefix standalone run build`.
+- Source: `site/pages-spa/` compiles `site/components/product-board.tsx` (same UI as localhost:5173). `npm --prefix standalone run build` writes the artifact; CI installs `site/` deps first.
 - Shared artifact: `outputs/pages/index.html` (local preview at http://127.0.0.1:4173/ and the Pages upload path).
+- Off Vinext hosts, the board calls `https://product-badge-board.vilento-belet.chatgpt.site` for API reads/writes.
 - Notion copy of the same HTML: `outputs/notion-product-badge.html`.
 - The workflow enables Pages with `build_type: workflow` before deploy. If the token cannot create Pages, set Settings → Pages → Source → GitHub Actions and re-run.
 
@@ -30,7 +31,7 @@ Last updated: 2026-09-27
 - Hosting configuration: `site/.openai/hosting.json`
 - Downloadable Notion HTML: `outputs/notion-product-badge.html` (generated)
 - GitHub Pages / local preview artifact: `outputs/pages/` (generated, same HTML as the Notion file)
-- Standalone TypeScript source: `standalone/src/`
+- Pages SPA entry: `site/pages-spa/`
 - Project React components + Storybook: `project-ui/`
 - GitHub Pages workflow: `.github/workflows/deploy-pages.yml`
 - Cursor New Changes skill: `.cursor/skills/new-changes/`
@@ -65,6 +66,8 @@ Last updated: 2026-09-27
 - `data/projects.json` now holds the full 10-product live catalog (not a four-card sample).
 - Board favicon: peach sparkle on a dark brown square (`site/public/favicon.svg`).
 - Shared Pages artifact `outputs/pages/index.html` for local `npm run dev` and GitHub Actions.
+- GitHub Pages / port 4173 now render the same React `ProductBoard` as localhost:5173 (lucide, Tailwind, shadcn), with API calls to the live Sites origin. Push to update https://vilentobelet.github.io/Recent-Projects/.
+- Local Vinext (`localhost:5173`) still mirrors live products and owner profile on loopback GETs.
 
 ## Verification
 
@@ -82,13 +85,14 @@ Last updated: 2026-09-27
 - Catalog JSON synced from the live `/api/products` list (10 cards).
 - Favicon assets added and wired on production, standalone, and Storybook.
 - `outputs/pages/index.html` and `outputs/notion-product-badge.html` are identical after `npm run build`.
+- Local 4173 React Pages build: 10 products, lucide icons, Cards and Compact match the Vinext component tree.
 
 ## Known constraints
 
 - Project passwords are publicly retrievable by design and are not suitable for sensitive secrets.
-- The standalone HTML depends on the live Sites API and network availability.
-- Local `npm run dev` (port 4173) is the Pages artifact. `site/` on port 5173 is the Vinext app with a local D1 database.
-- UI behavior shared by the production site and standalone HTML must be updated in both implementations.
+- The Pages HTML depends on the live Sites API and network availability.
+- Local `npm run dev` (port 4173) is the Pages artifact. `localhost:5173` is Vinext with D1/R2; public GETs can still mirror the live board.
+- Visitor UI is one React file (`product-board.tsx`) for Vinext and Pages; rebuild Pages after board UI changes.
 - Historical archives and the OpenAI Sites git backup are retained under `archive/` and are not part of normal development context.
 
 ## Next task
