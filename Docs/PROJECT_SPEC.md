@@ -37,7 +37,7 @@ Each project supports:
 - Cards view is the default for a new browser session.
 - The owner badge, portfolio badge, and Cards/Compact toggle are equal-height controls aligned with the `Recent Projects.` headline on desktop.
 - View mode, selected category, and scroll position persist within the browser session.
-- Cards view uses two columns on desktop and one column on mobile.
+- Cards view uses two columns on desktop and one column on mobile. Cards fill left to right, then the next row (not masonry).
 - Compact view uses a two-column row from 768px (identity | actions) and stacks on phones. Titles stay on one truncated line; long URLs show host plus short path segments (Figma file keys are omitted), with the full URL in the tooltip.
 - Industry tags appear directly below Product Idea and remain visually secondary.
 - Featured projects appear before regular projects and display a Featured badge.
@@ -71,7 +71,7 @@ Each project supports:
 
 - Frontend/full-stack framework: React 19, Next-compatible Vinext, TypeScript, Tailwind CSS.
 - Hosting: OpenAI Sites / Cloudflare Worker runtime.
-- Static GitHub Pages mirror and local `npm run dev` both use `outputs/pages/index.html`, a Vite build of the same `site/components/product-board.tsx` UI as localhost:5173, talking to the hosted API.
+- Static GitHub Pages mirror and local `npm run dev` both use `outputs/pages/index.html`, a Vite build of the same `site/components/product-board.tsx` UI as localhost:5173, talking to the hosted API. localhost:5173 also reads and writes that hosted API so Owner mode (`#admin=`) edits the live board.
 - Repository layout: product docs in `Docs/`, card catalog in `data/projects.json`, Vinext app in `site/`, Pages SPA entry in `site/pages-spa/` (built by `standalone/scripts/build.mjs`), React Project components and Storybook in `project-ui/`, Cursor skills and rules in `.cursor/`.
 - Cards are defined in `data/projects.json`, not in component source. An empty database is seeded from that file. Owner edits persist in D1.
 - Database: D1 with Drizzle-managed migrations.

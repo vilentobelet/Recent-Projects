@@ -1,6 +1,6 @@
 "use client";
 
-import { CSSProperties, FormEvent, KeyboardEvent, MouseEvent, useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
+import { CSSProperties, FormEvent, KeyboardEvent, MouseEvent, useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Check, ExternalLink, Globe2, GripVertical, ImagePlus, KeyRound, Layers3, LayoutGrid, Link2, LoaderCircle, LockKeyhole, PackagePlus, Pencil, Plus, Rows3, Save, Sparkles, Trash2, UserRound, X } from "lucide-react";
 import { toast } from "sonner";
 
@@ -68,15 +68,33 @@ function getFaviconUrl(value: string) {
   return host ? `https://www.google.com/s2/favicons?domain=${encodeURIComponent(host)}&sz=64` : "";
 }
 
+function isLatin1HeaderValue(value: string) {
+  for (let index = 0; index < value.length; index += 1) {
+    if (value.charCodeAt(index) > 255) return false;
+  }
+  return true;
+}
+
 function readAdminToken() {
   if (typeof window === "undefined") return "";
   const fragment = new URLSearchParams(window.location.hash.replace(/^#/, ""));
-  const fromUrl = fragment.get("admin") ?? "";
+  const fromUrl = (fragment.get("admin") ?? "").trim();
   if (fromUrl) {
-    sessionStorage.setItem("product-badge-admin", fromUrl);
     history.replaceState(null, "", `${location.pathname}${location.search}`);
+    if (!isLatin1HeaderValue(fromUrl)) {
+      sessionStorage.removeItem("product-badge-admin");
+      toast.error("Admin link is invalid");
+      return "";
+    }
+    sessionStorage.setItem("product-badge-admin", fromUrl);
+    return fromUrl;
   }
-  return fromUrl || sessionStorage.getItem("product-badge-admin") || "";
+  const stored = sessionStorage.getItem("product-badge-admin") || "";
+  if (stored && !isLatin1HeaderValue(stored)) {
+    sessionStorage.removeItem("product-badge-admin");
+    return "";
+  }
+  return stored;
 }
 
 async function copyText(value: string, label: string) {
@@ -268,26 +286,15 @@ function ProductCard({ product, viewMode, isAdmin, token, onChanged, draggingId,
   const [editing, setEditing] = useState(false);
   const [saving, setSaving] = useState(false);
   const [faviconFailed, setFaviconFailed] = useState(false);
-  const [rowSpan, setRowSpan] = useState(1);
-  const cardRef = useRef<HTMLElement>(null);
   const theme = COLOR_THEMES[product.color] ?? COLOR_THEMES.orange;
   const tags = tagsFromIndustry(product.industry);
   const linkKind = getLinkKind(product.link);
   const fullLink = normaliseLink(product.link);
   const displayLink = getDisplayLink(product.link);
   const faviconUrl = getFaviconUrl(product.link);
-  const cardStyle = { "--card-accent": theme.accent, "--card-soft": theme.soft, "--card-border": theme.border, ...(viewMode === "cards" ? { gridRowEnd: `span ${rowSpan}` } : {}) } as CSSProperties;
+  const cardStyle = { "--card-accent": theme.accent, "--card-soft": theme.soft, "--card-border": theme.border } as CSSProperties;
 
   useEffect(() => setFaviconFailed(false), [product.link]);
-
-  useLayoutEffect(() => {
-    const card = cardRef.current;
-    if (!card) return;
-    const update = () => setRowSpan(viewMode === "cards" ? Math.max(1, Math.ceil((card.getBoundingClientRect().height + 14) / 4)) : 1);
-    update();
-    const observer = new ResizeObserver(update);     observer.observe(card);
-    return () => observer.disconnect();
-  }, [editing, product, viewMode]);
 
   async function copyField(value: string, kind: "link" | "password") {
     try {
@@ -362,7 +369,6 @@ function ProductCard({ product, viewMode, isAdmin, token, onChanged, draggingId,
 
   return (
     <article
-      ref={cardRef}
       data-product-id={product.id}
       style={cardStyle}
       onDragOver={(event) => { if (!isAdmin) return; event.preventDefault(); onDragOver(product.id); }}
@@ -434,7 +440,12 @@ export default function ProductBoard() {
   const [overId, setOverId] = useState<number | null>(null);
   const scrollRestored = useRef(false);
   const isAdmin = Boolean(token);
-  useEffect(() => setToken(readAdminToken()), []);
+  useEffect(() => {
+    const applyAdminToken = () => setToken(readAdminToken());
+    applyAdminToken();
+    window.addEventListener("hashchange", applyAdminToken);
+    return () => window.removeEventListener("hashchange", applyAdminToken);
+  }, []);
   const loadProducts = useCallback(async () => {
     try { const response = await boardFetch("/api/products", { cache: "no-store" }); const payload = await response.json(); if (!response.ok) throw new Error(payload.error || "Could not load products"); setProducts(payload.products); setError(""); }
     catch (loadError) { setError(loadError instanceof Error ? loadError.message : "Could not load products"); }
@@ -469,7 +480,7 @@ export default function ProductBoard() {
   }, [activeCategory, loading, preferencesReady, viewMode]);
   useEffect(() => {
     if (!token) return;
-    void boardFetch("/api/admin/check", { headers: { "x-admin-token": token } }).then((response) => { if (response.ok) return; sessionStorage.removeItem("product-badge-admin"); setToken(""); toast.error("Admin link is invalid"); });
+    void boardFetch("/api/admin/check", { headers: { "x-admin-token": token } }).then((response) => { if (response.ok) return; sessionStorage.removeItem("product-badge-admin"); setToken(""); toast.error("Admin link is invalid"); }).catch(() => { sessionStorage.removeItem("product-badge-admin"); setToken(""); toast.error("Admin link is invalid"); });
   }, [token]);
 
   useEffect(() => {
@@ -599,7 +610,7 @@ export default function ProductBoard() {
         </div>}
         {error && <div className="mb-6 rounded-2xl border border-red-500/20 bg-red-500/10 p-4 text-sm text-red-200">{error}</div>}
         {adding && <article className="relative mb-3.5 overflow-hidden rounded-[1.4rem] border border-orange-500/25 bg-[#202020] p-5 shadow-[0_18px_55px_rgba(0,0,0,.22)] sm:p-6"><div className="mb-5 flex items-center gap-3"><span className="grid size-10 place-items-center rounded-xl bg-orange-500/10 text-orange-400"><PackagePlus className="size-5" /></span><div><p className="text-xs font-semibold uppercase tracking-[0.14em] text-orange-400">New card</p><h2 className="text-lg font-semibold">Add a product</h2></div></div><ProductForm initial={EMPTY_DRAFT} saving={saving} token={token} onSave={create} onCancel={() => setAdding(false)} submitLabel="Add product" /></article>}
-        <section aria-label="Products" aria-busy={loading} className={viewMode === "cards" ? "grid auto-rows-[4px] grid-cols-1 items-start gap-x-3.5 gap-y-0 md:grid-cols-2" : "grid grid-cols-1 items-start gap-2.5"}>
+        <section aria-label="Products" aria-busy={loading} className={viewMode === "cards" ? "grid grid-flow-row grid-cols-1 items-start gap-3.5 md:grid-cols-2" : "grid grid-cols-1 items-start gap-2.5"}>
           {loading && [0, 1, 2, 3].map((item) => <ProjectCardSkeleton key={item} viewMode={viewMode} />)}
           {!loading && visibleProducts.map((product) => <ProductCard key={product.id} product={product} viewMode={viewMode} isAdmin={isAdmin} token={token} onChanged={loadProducts} draggingId={draggingId} overId={overId} onDragStart={(id) => { setDraggingId(id); setOverId(id); }} onDragOver={setOverId} onDrop={finishDrop} onDragEnd={() => { setDraggingId(null); setOverId(null); }} onPointerMove={trackPointer} onPointerDrop={() => finishDrop(overId)} />)}
         </section>

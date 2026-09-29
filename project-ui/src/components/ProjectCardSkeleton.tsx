@@ -1,4 +1,4 @@
-import { useLayoutEffect, useRef, useState, type CSSProperties } from "react";
+import type { CSSProperties } from "react";
 import type { ViewMode } from "../model";
 
 function Bone({ className, style }: { className?: string; style?: CSSProperties }) {
@@ -7,31 +7,12 @@ function Bone({ className, style }: { className?: string; style?: CSSProperties 
 
 export function ProjectCardSkeleton({
   viewMode = "cards",
-  measureGrid = false,
 }: {
   viewMode?: ViewMode;
-  measureGrid?: boolean;
 }) {
-  const cardRef = useRef<HTMLElement>(null);
-  const [rowSpan, setRowSpan] = useState(1);
-
-  useLayoutEffect(() => {
-    const card = cardRef.current;
-    if (!card || !measureGrid) return;
-    const update = () => setRowSpan(viewMode === "cards" ? Math.max(1, Math.ceil((card.getBoundingClientRect().height + 14) / 4)) : 1);
-    update();
-    const observer = new ResizeObserver(update);
-    observer.observe(card);
-    return () => observer.disconnect();
-  }, [measureGrid, viewMode]);
-
-  const style = (measureGrid && viewMode === "cards" ? { gridRowEnd: `span ${rowSpan}` } : undefined) as CSSProperties | undefined;
-
   return (
     <article
-      ref={cardRef}
       aria-hidden="true"
-      style={style}
       className={`relative w-full overflow-hidden border border-white/[0.09] bg-[#202020] shadow-[0_18px_55px_rgba(0,0,0,.22)] ${viewMode === "cards" ? "rounded-[1.4rem]" : "rounded-2xl"}`}
     >
       <div className="absolute inset-y-0 left-0 w-1 bg-orange-500/35" />
@@ -93,16 +74,14 @@ export function ProjectCardSkeleton({
 export function ProjectCardSkeletonGrid({
   viewMode = "cards",
   count = 4,
-  measureGrid = false,
 }: {
   viewMode?: ViewMode;
   count?: number;
-  measureGrid?: boolean;
 }) {
   return (
     <>
       {Array.from({ length: count }, (_, index) => (
-        <ProjectCardSkeleton key={index} viewMode={viewMode} measureGrid={measureGrid} />
+        <ProjectCardSkeleton key={index} viewMode={viewMode} />
       ))}
     </>
   );

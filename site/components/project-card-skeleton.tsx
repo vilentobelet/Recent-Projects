@@ -1,34 +1,13 @@
 "use client";
 
-import { CSSProperties, useLayoutEffect, useRef, useState } from "react";
-
-type ViewMode = "cards" | "compact";
-
 function Bone({ className }: { className?: string }) {
   return <div className={`animate-pulse rounded-md bg-white/[0.07] ${className ?? ""}`} />;
 }
 
-export function ProjectCardSkeleton({ viewMode = "cards" }: { viewMode?: ViewMode }) {
-  const cardRef = useRef<HTMLElement>(null);
-  const [rowSpan, setRowSpan] = useState(1);
-
-  useLayoutEffect(() => {
-    const card = cardRef.current;
-    if (!card) return;
-    const update = () => setRowSpan(viewMode === "cards" ? Math.max(1, Math.ceil((card.getBoundingClientRect().height + 14) / 4)) : 1);
-    update();
-    const observer = new ResizeObserver(update);
-    observer.observe(card);
-    return () => observer.disconnect();
-  }, [viewMode]);
-
-  const style = (viewMode === "cards" ? { gridRowEnd: `span ${rowSpan}` } : {}) as CSSProperties;
-
+export function ProjectCardSkeleton({ viewMode = "cards" }: { viewMode?: "cards" | "compact" }) {
   return (
     <article
-      ref={cardRef}
       aria-hidden="true"
-      style={style}
       className={`relative w-full overflow-hidden border border-white/[0.09] bg-[#202020] shadow-[0_18px_55px_rgba(0,0,0,.22)] ${viewMode === "cards" ? "rounded-[1.4rem]" : "rounded-2xl"}`}
     >
       <div className="absolute inset-y-0 left-0 w-1 bg-orange-500/35" />

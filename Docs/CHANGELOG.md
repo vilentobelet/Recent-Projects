@@ -1,5 +1,17 @@
 # Product Badge Board — Changelog
 
+## 2026-09-29 — Cards fill left to right
+
+- Cards view no longer masonry-packs into the shorter column. The third card in a two-column row (for example Samsung ADS under B2B) sits on the left of the next row.
+
+## 2026-09-29 — Brand Identity titles on live board
+
+- Live cards 9 and 10 now use `bloBrew - Brand Identity` and `Tom Yum - Brand Identity`. Web3 `bloBrew` is unchanged.
+
+## 2026-09-29 — Owner mode on localhost:5173
+
+- Opening `http://localhost:5173/#admin=` with the production token now checks and saves against the live Sites API, so Owner edits from Vinext update the same board as chatgpt.site. Non-ASCII tokens are rejected instead of throwing a `fetch` header error. Pasting `#admin=` into an already-open tab is applied on hashchange.
+
 ## 2026-09-29 — Brand Identity card titles
 
 - In `data/projects.json`, renamed the Brand Identity cards to `bloBrew - Brand Identity` and `Tom Yum - Brand Identity`. The Web3 `bloBrew` card is unchanged.

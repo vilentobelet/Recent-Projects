@@ -53,7 +53,11 @@ npm run build    # write outputs/pages and the Notion HTML copy
 
 ## Production Sites app
 
-`localhost:5173` is the Vinext app in `site/`. On your machine it now reads the **same live products and owner profile** as GitHub Pages. Use it for Owner-mode server work:
+`localhost:5173` is the Vinext app in `site/`. The board UI talks to the **live** Sites API (same catalog as GitHub Pages). Owner mode uses the same token as production:
+
+```text
+http://localhost:5173/#admin=YOUR_TOKEN
+```
 
 ```sh
 cd site
@@ -77,6 +81,7 @@ Owner mode accepts the private admin token through the URL fragment and then kee
 
 ```text
 https://product-badge-board.vilento-belet.chatgpt.site/#admin=YOUR_TOKEN
+http://localhost:5173/#admin=YOUR_TOKEN
 ```
 
 ## Notion embed

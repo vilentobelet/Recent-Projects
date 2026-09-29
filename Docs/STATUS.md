@@ -42,7 +42,7 @@ Last updated: 2026-09-29
 ## Implemented
 
 - Public product board and Owner mode.
-- Two-column adaptive Cards view and one-column mobile layout.
+- Cards view uses two columns on desktop and one column on mobile. Cards fill left to right, then the next row.
 - Compact view and session-persisted view/category/scroll preferences.
 - Dynamic category filtering with compact selected-state badges.
 - Multiple industry tags per project.
@@ -67,8 +67,8 @@ Last updated: 2026-09-29
 - Board favicon: peach sparkle on a dark brown square (`site/public/favicon.svg`).
 - Shared Pages artifact `outputs/pages/index.html` for local `npm run dev` and GitHub Actions.
 - GitHub Pages / port 4173 now render the same React `ProductBoard` as localhost:5173 (lucide, Tailwind, shadcn), with API calls to the live Sites origin. Push to update https://vilentobelet.github.io/Recent-Projects/.
-- Local Vinext (`localhost:5173`) still mirrors live products and owner profile on loopback GETs.
-- Seed catalog names: Brand Identity cards are `bloBrew - Brand Identity` and `Tom Yum - Brand Identity`; Web3 `bloBrew` is unchanged. Live D1 still uses the short titles until an Owner save.
+- Local Vinext (`localhost:5173`) reads and writes the live Sites API, so `#admin=` Owner mode edits the hosted board. The hash is applied on load and on `hashchange`.
+- Live Brand Identity titles are `bloBrew - Brand Identity` and `Tom Yum - Brand Identity`; Web3 `bloBrew` is unchanged.
 
 ## Verification
 
@@ -92,7 +92,7 @@ Last updated: 2026-09-29
 
 - Project passwords are publicly retrievable by design and are not suitable for sensitive secrets.
 - The Pages HTML depends on the live Sites API and network availability.
-- Local `npm run dev` (port 4173) is the Pages artifact. `localhost:5173` is Vinext with D1/R2; public GETs can still mirror the live board.
+- Local `npm run dev` (port 4173) is the Pages artifact. `localhost:5173` is Vinext with local D1/R2 for server work; the board UI reads and writes the live Sites API.
 - Visitor UI is one React file (`product-board.tsx`) for Vinext and Pages; rebuild Pages after board UI changes.
 - Historical archives and the OpenAI Sites git backup are retained under `archive/` and are not part of normal development context.
 
